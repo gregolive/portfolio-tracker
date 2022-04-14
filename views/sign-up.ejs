@@ -21,21 +21,37 @@
     </div>
 
     <div class="auth-box">
-      <h2>Welcome back! 👋</h2>
+      <h2>Create an account 🤝🏿</h2>
 
-      <form action="/sign-in" method="POST">
+      <form action="" method="POST">
         <fieldset>
           <label for="username">Username</label>
           <input type="text" name="username" id="username" />
         </fieldset>
         <fieldset>
+          <label for="first_name">First name</label>
+          <input type="text" name="first_name" id="first_name" />
+        </fieldset>
+        <fieldset>
+          <label for="last_name">Last name</label>
+          <input type="text" name="last_name" id="last_name" />
+        </fieldset>
+        <fieldset>
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" />
+        </fieldset>
+        <fieldset>
           <label for="password">Password</label>
           <input type="password" name="password" id="password" />
         </fieldset>
-        <button class="btn btn-primary">Log In</button>
+        <fieldset>
+          <label for="password-confirm">Password Confirm</label>
+          <input type="password" name="password-confirm" id="password-confirm" />
+        </fieldset>
+        <button class="btn btn-primary">Sign Up</button>
       </form>
 
-      <p>Need an account? <a href="/sign-up">Sign up</a></p>
+      <p>Already have an account? <a href="/sign-in">Log in</a></p>
     </div>
   </section>
 </body>
