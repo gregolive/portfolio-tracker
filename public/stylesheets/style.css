@@ -148,6 +148,11 @@ main {
   height: calc(100vh - 4rem);
 }
 
+.welcome {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
 
 @media screen and (max-width: 768px) {
   header {
