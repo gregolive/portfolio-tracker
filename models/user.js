@@ -23,6 +23,13 @@ const UserSchema = new Schema(
   }
 );
 
+// Virtual for user's handle
+UserSchema
+.virtual('handle')
+.get(function () {
+  return '@' + this.username;
+});
+
 // Virtual for user's URL
 UserSchema
 .virtual('url')
