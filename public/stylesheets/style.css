@@ -8,6 +8,7 @@
   --primary2: #A8F9FF;
   --secondary1: #FF3864;
   --secondary2: #FF5C7F;
+  --success: #00B865;
   --gray: #58585F;
 }
 
@@ -94,6 +95,11 @@ a {
   color: white;
   border: none;
   padding: 0.1rem;
+}
+
+.btn-more {
+  font-size: 0.9rem;
+  gap: 0;
 }
 
 header {

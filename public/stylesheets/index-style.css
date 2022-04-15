@@ -1,0 +1,97 @@
+.card {
+  background: linear-gradient(45deg, var(--bg1) 25%, var(--bg2) 100%);
+  border-radius: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
+.card > a {
+  border-bottom: 1px solid var(--primary1);
+  border-left: 1px solid var(--primary1);
+  border-radius: 0 1rem 0 0.25rem;
+  padding: 0.4rem 0.6rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.card > a:hover {
+  background: var(--bg1);
+}
+
+.card-header {
+  margin-bottom: 0.5rem;
+  grid-column: 1 / -1;
+}
+
+.card-title {
+  font-size: 1.6rem;
+}
+
+.card-subtitle {
+  color: var(--primary2);
+}
+
+.portfolio {
+  border: 1px solid var(--primary1);
+  grid-template-columns: 2fr repeat(2, 1fr);
+  row-gap: 0.5rem;
+}
+
+.portfolio-total {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.change {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.1rem 0;
+}
+
+.percent-pos {
+  background: var(--success);
+  border-radius: 0.25rem;
+}
+
+.percent-neg {
+  background: var(--secondary1);
+  border-radius: 0.25rem;
+}
+
+@media screen and (max-width: 480px) {
+  .card {
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem 0 1rem;
+  }
+
+  .card > a {
+    background: linear-gradient(45deg, var(--primary1) 25%, var(--primary2) 100%);
+    color: var(--bg1);
+    border: none;
+    border-radius: 0 0 0.75rem 0.75rem;
+    margin: 1rem 0 -1px calc(-1rem - 1px);
+    padding: 0.1rem 0;
+    width: calc(100% + 2rem + 2px);
+    grid-column: 1 / -1;
+    position: static;
+  }
+  
+  .portfolio {
+    grid-template-columns: 1.3fr repeat(2, 1fr);
+  }
+
+  .card-subtitle {
+    font-size: 1rem;
+  }
+
+  .change {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}

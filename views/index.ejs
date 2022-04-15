@@ -7,6 +7,7 @@
   <title><%= title %> | Tendies Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/index-style.css' />
   <link rel="icon" href="/images/favicon.ico" />
   <script src="/javascripts/script.js" defer></script>
 </head>
@@ -27,7 +28,7 @@
       </button>
       <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
         <span>🚀</span>
-        @<%= user.username %>
+        <%= user.handle %>
       </a>
       <a href="/sign-out" type="button" class="btn btn-secondary">Log out</a>
     </div>
@@ -35,6 +36,34 @@
 
   <main>
     <h1>Feeling bullish? 📈</h1>
+
+    <section class="card portfolio">
+      <div class="card-header">
+        <h2 class="card-title">Portfolio Holdings</h2>
+        <span class="portfolio-total">$28307.78</span>
+      </div>
+
+      <h3 class="card-subtitle">Day's gain</h3>
+      <span class="change">-676.31</span>
+      <span class="change percent-neg">-2.38%</span>
+
+      <h3 class="card-subtitle">Total gain</h3>
+      <span class="change">6443.75</span>
+      <span class="change percent-pos">+18.55%</span>
+
+      <a href="" class="btn btn-more">
+        View Portfolio
+        <span class="material-icons-outlined">navigate_next</span>
+      </a>
+    </section>
+
+    <section class="card holdings">
+
+    </section>
+
+    <section class="card transactions">
+
+    </section>
   </main>
 
   <footer>
