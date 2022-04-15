@@ -23,7 +23,7 @@
     <div class="auth-box">
       <h2>Create an account 🤝🏿</h2>
 
-      <form action="" method="POST" class="signup-form">  
+      <form action="" method="POST" class="signup-form" novalidate>  
         <fieldset>
           <label for="username">Username</label>
           <input type="text" name="username" id="username" value="<%= (typeof user === "undefined") ? "" : user.username %>" />
@@ -46,7 +46,7 @@
 
         <fieldset>
           <label for="password">Password</label>
-          <input type="password" name="password" id="password" autocomplete="on" />
+          <input type="password" name="password" id="password" autocomplete="on" value="<%= (typeof user === "undefined") ? "" : user.password %>" />
           <span class="error-msg">
             <% if (typeof errors !== "undefined" && Object.keys(errors).includes("password")) { %>
               <%= errors["password"].msg %>

@@ -2,6 +2,16 @@ const User = require('../models/user');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
+// Display detail page for a specific User.
+exports.user_view = (req, res, next) => {
+  User.findOne({ username: req.params.username })
+    .exec(function (err, user) {
+      if (err) { return next(err); }
+      //Successful, so render
+      res.render('user/user_detail', { title: user.username, user: user });
+  });
+};
+
 // Display User create form on GET.
 exports.user_create_get = (req, res, next) => {
   res.render('sign-up', { title: 'Sign up' });
@@ -13,7 +23,7 @@ exports.user_create_post = [
   body('username').trim().isLength({ min: 1 }).escape().withMessage('Username cannot be blank.')
     .isAlphanumeric().withMessage('Username has non-alphanumeric characters.').custom(username => {
       return User.findOne({ username: username }).then(user => {
-        if (user) { return Promise.reject('Username already in use'); }
+        if (user) { return Promise.reject('Username already in use.'); }
       });
     }),
   body('email').trim().escape().isEmail().withMessage('Email must be valid.').custom(email => {

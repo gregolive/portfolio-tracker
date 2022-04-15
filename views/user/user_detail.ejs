@@ -13,7 +13,7 @@
 <body>
   <header>
     <a href="/" class="logo">
-      <img src="./images/logo.png" alt="tendie tracker">
+      <img src="../images/logo.png" alt="tendie tracker">
       <span>Tendies Tracker</span>
     </a>
 
@@ -34,16 +34,26 @@
   </header>
 
   <main>
-    <h1>Feeling bullish? 📈</h1>
+    <h1>Hello <%= user.username %> 👋</h1>
+
+    <div class="account-details">
+      <p><%= user.username %></p>
+      <p><%= user.email %></p>
+    </div>
+
+    <div class="account-buttons">
+      <a href="" type="button" class="btn btn-primary btn-user">Update details</a>
+      <a href="" type="button" class="btn btn-danger">Delete account</a>
+    </div>
   </main>
 
   <footer>
     <div class="footer-top">
       <a href="/">
-        <img src="./images/logo.png" alt="tendie tracker" class="footer-img">
+        <img src="../images/logo.png" alt="tendie tracker" class="footer-img">
       </a>
       <a href="https://github.com/gregolive" target="_blank" rel="noopener">
-        <img src="./images/github.png" alt="github" class="footer-img">
+        <img src="../images/github.png" alt="github" class="footer-img">
       </a>
     </div>
 
