@@ -7,6 +7,7 @@
   <title><%= title %> | Tendies Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/user-style.css' />
   <link rel="icon" href="/images/favicon.ico" />
   <script src="/javascripts/script.js" defer></script>
 </head>
@@ -27,14 +28,14 @@
       </button>
       <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
         <span>🚀</span>
-        <%= user.username %>
+        @<%= user.username %>
       </a>
       <a href="/sign-out" type="button" class="btn btn-secondary">Log out</a>
     </div>
   </header>
 
   <main>
-    <h1>Hello <%= user.username %> 👋</h1>
+    <h1>Hello @<%= user.username %> 👋</h1>
 
     <div class="account-details">
       <p><%= user.username %></p>

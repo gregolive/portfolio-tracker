@@ -1,0 +1,130 @@
+
+.account-details {
+  font-size: 1.25rem;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.account-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.welcome-page {
+  min-height: 100vh;
+  padding: 0 9vw;
+  display: grid;
+  grid-template-columns: 1fr calc(10rem + 25vw);
+  gap: 2rem;
+  align-items: center;
+}
+
+.welcome-logo {
+  height: 15rem;
+}
+
+.welcome-title {
+  font-size: calc(1.5rem + 2vw);
+}
+
+.welcome-msg {
+  font-size: calc(0.6rem + 1vw);
+  font-weight: 300;
+}
+
+.auth-box {
+  background: var(--bg2);
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.signup-form {
+  gap: 0.75rem;
+}
+
+.error-msg {
+  color: var(--secondary1);
+  font-size: 0.9rem;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .welcome-page {
+    min-height: 90vh;
+    margin: 5vh 0;
+    padding: 0 12vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .welcome-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .welcome-logo {
+    height: 10rem;
+  }
+  
+  .welcome-title {
+    font-size: 2.8rem;
+  }
+  
+  .welcome-msg {
+    font-size: 1.2rem;
+  }
+
+  .auth-box {
+    align-self: stretch;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .welcome-page {
+    min-height: 95vh;
+    margin: 5vh 0 0 0;
+    padding: 0;
+  }
+
+  .welcome-logo {
+    height: 6rem;
+  }
+  
+  .welcome-title {
+    font-size: 2.4rem;
+  }
+  
+  .welcome-msg {
+    font-size: 1rem;
+  }
+
+  .auth-box {
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .welcome-logo {
+    height: 5rem;
+  }
+  
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .welcome-msg {
+    font-size: 1rem;
+  }
+
+  .auth-box {
+    padding: 1.5rem;
+  }
+}

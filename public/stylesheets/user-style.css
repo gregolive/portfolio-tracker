@@ -1,0 +1,18 @@
+.account-details {
+  font-size: 1.25rem;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.account-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .account-buttons {
+    flex-direction: column;
+  }
+}
