@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const user_controller = require('../controllers/userController');
+
 /* GET home page if user signed in or redirect to sign in page. */
 router.get('/', (req, res, next) => {
   if (req.user) {
@@ -16,8 +18,9 @@ router.get('/sign-in', (req, res, next) => {
 });
 
 /* GET sign up */
-router.get('/sign-up', (req, res, next) => {
-  res.render('sign-up', { title: 'Sign up' });
-});
+router.get('/sign-up', user_controller.user_create_get);
+
+/* POST sign up */
+router.post('/sign-up', user_controller.user_create_post);
 
 module.exports = router;

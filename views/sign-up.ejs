@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> | Tendies Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="/stylesheets/style.css" />
   <link rel="icon" href="/images/favicon.ico" />
   <script src="/javascripts/script.js" defer></script>
 </head>
@@ -23,31 +23,47 @@
     <div class="auth-box">
       <h2>Create an account 🤝🏿</h2>
 
-      <form action="" method="POST">
+      <form action="" method="POST" class="signup-form">  
         <fieldset>
           <label for="username">Username</label>
-          <input type="text" name="username" id="username" />
+          <input type="text" name="username" id="username" value="<%= (typeof user === "undefined") ? "" : user.username %>" />
+          <span class="error-msg">
+            <% if (typeof errors !== "undefined" && Object.keys(errors).includes("username")) { %>
+              <%= errors["username"].msg %>
+            <% } %>
+          </span>
         </fieldset>
-        <fieldset>
-          <label for="first_name">First name</label>
-          <input type="text" name="first_name" id="first_name" />
-        </fieldset>
-        <fieldset>
-          <label for="last_name">Last name</label>
-          <input type="text" name="last_name" id="last_name" />
-        </fieldset>
+
         <fieldset>
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" name="email" id="email" value="<%= (typeof user === "undefined") ? "" : user.email %>" />
+          <span class="error-msg">
+            <% if (typeof errors !== "undefined" && Object.keys(errors).includes("email")) { %>
+              <%= errors["email"].msg %>
+            <% } %>
+          </span>
         </fieldset>
+
         <fieldset>
           <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
+          <input type="password" name="password" id="password" autocomplete="on" />
+          <span class="error-msg">
+            <% if (typeof errors !== "undefined" && Object.keys(errors).includes("password")) { %>
+              <%= errors["password"].msg %>
+            <% } %>
+          </span>
         </fieldset>
+
         <fieldset>
-          <label for="password-confirm">Password Confirm</label>
-          <input type="password" name="password-confirm" id="password-confirm" />
+          <label for="passwordConfirm">Password Confirmation</label>
+          <input type="password" name="passwordConfirm" id="passwordConfirm" autocomplete="on" />
+          <span class="error-msg">
+            <% if (typeof errors !== "undefined" && Object.keys(errors).includes("passwordConfirm")) { %>
+              <%= errors["passwordConfirm"].msg %>
+            <% } %>
+          </span>
         </fieldset>
+
         <button class="btn btn-primary">Sign Up</button>
       </form>
 
