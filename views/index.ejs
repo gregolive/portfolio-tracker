@@ -37,6 +37,7 @@
   <main>
     <h1>Feeling bullish? 📈</h1>
 
+    <% if (false) { %> 
     <div class="dashboard">
       <section class="card portfolio">
         <div class="card-header">
@@ -91,6 +92,13 @@
         </div>
       </section>
     </div>
+    <% } else { %> 
+      <p>Let's get you started with a new portfolio:</p>
+
+      <div class="button-group">
+        <a href="<%= user.url %>" type="button" class="btn btn-primary">+ Create portfolio</a>
+      </div>
+    <% } %> 
   </main>
 
   <footer>

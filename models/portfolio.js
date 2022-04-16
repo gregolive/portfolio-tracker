@@ -8,11 +8,6 @@ const PortfolioSchema = new Schema(
       required: true,
       maxLength: 100,
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
   }
 );
 

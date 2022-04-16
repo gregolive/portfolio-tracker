@@ -10,7 +10,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const userRouter = require('./routes/users');
+const portfolioRouter = require('./routes/portfolios');
 const User = require('./models/user');
 
 const app = express();
@@ -73,7 +74,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/user', usersRouter);
+app.use('/user', userRouter);
+app.use('/user', portfolioRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

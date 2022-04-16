@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 // Display detail page for a specific User.
-exports.user_view = (req, res, next) => {
+exports.user_detail = (req, res, next) => {
   User.findOne({ username: req.params.username })
     .exec(function (err, user) {
       if (err) { return next(err); }
@@ -64,3 +64,23 @@ exports.user_create_post = [
     }
   }
 ];
+
+// Display User delete form on GET.
+exports.user_delete_get = function(req, res) {
+  res.send('NOT IMPLEMENTED: User delete GET');
+};
+
+// Handle User delete on POST.
+exports.user_delete_post = function(req, res) {
+  res.send('NOT IMPLEMENTED: User delete POST');
+};
+
+// Display User update form on GET.
+exports.user_update_get = function(req, res) {
+  res.send('NOT IMPLEMENTED: User update GET');
+};
+
+// Handle User update on POST.
+exports.user_update_post = function(req, res) {
+  res.send('NOT IMPLEMENTED: User update POST');
+};

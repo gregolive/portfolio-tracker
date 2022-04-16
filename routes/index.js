@@ -32,10 +32,10 @@ router.get('/sign-out', (req, res) => {
   res.redirect('/sign-in');
 });
 
-/* GET sign up */
+/* GET sign up (create new User) */
 router.get('/sign-up', user_controller.user_create_get);
 
-/* POST sign up */
+/* POST sign up (create new User) */
 router.post('/sign-up', user_controller.user_create_post);
 
 module.exports = router;
