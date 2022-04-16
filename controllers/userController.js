@@ -66,21 +66,21 @@ exports.user_create_post = [
 ];
 
 // Display User delete form on GET.
-exports.user_delete_get = function(req, res) {
+exports.user_delete_get = (req, res) => {
   res.send('NOT IMPLEMENTED: User delete GET');
 };
 
 // Handle User delete on POST.
-exports.user_delete_post = function(req, res) {
+exports.user_delete_post = (req, res) => {
   res.send('NOT IMPLEMENTED: User delete POST');
 };
 
 // Display User update form on GET.
-exports.user_update_get = function(req, res) {
+exports.user_update_get = (req, res) => {
   res.send('NOT IMPLEMENTED: User update GET');
 };
 
 // Handle User update on POST.
-exports.user_update_post = function(req, res) {
+exports.user_update_post = (req, res) => {
   res.send('NOT IMPLEMENTED: User update POST');
 };

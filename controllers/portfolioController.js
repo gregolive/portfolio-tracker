@@ -2,7 +2,7 @@ const Portfolio = require('../models/portfolio');
 const { body, validationResult } = require('express-validator');
 
 // Display detail page for a specific Portfolio.
-exports.portfolio_detail = function(req, res) {
+exports.portfolio_detail = (req, res) => {
   res.send('NOT IMPLEMENTED: Portfolio detail: ' + req.params.id);
 };
 
@@ -46,21 +46,21 @@ exports.portfolio_create_post = [
 ];
 
 // Display Portfolio delete form on GET.
-exports.portfolio_delete_get = function(req, res) {
+exports.portfolio_delete_get = (req, res) => {
   res.send('NOT IMPLEMENTED: Portfolio delete GET');
 };
 
 // Handle Portfolio delete on POST.
-exports.portfolio_delete_post = function(req, res) {
+exports.portfolio_delete_post = (req, res) => {
   res.send('NOT IMPLEMENTED: Portfolio delete POST');
 };
 
 // Display Portfolio update form on GET.
-exports.portfolio_update_get = function(req, res) {
+exports.portfolio_update_get = (req, res) => {
   res.send('NOT IMPLEMENTED: Portfolio update GET');
 };
 
 // Handle Portfolio update on POST.
-exports.portfolio_update_post = function(req, res) {
+exports.portfolio_update_post = (req, res) => {
   res.send('NOT IMPLEMENTED: Portfolio update POST');
 };
