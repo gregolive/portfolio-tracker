@@ -3,23 +3,24 @@ const router = express.Router();
 
 const index_controller = require('../controllers/indexController');
 const user_controller = require('../controllers/userController');
+const { authenticateUser, checkNotAuthenticated } = require('../config/auth-config');
 
 // GET home page.
-router.get('/', index_controller.home);
+router.get('/', authenticateUser, index_controller.home);
 
-// GET request to sign in.
-router.get('/sign-in', index_controller.sign_in_get);
+// GET request to log in.
+router.get('/login', checkNotAuthenticated, index_controller.login_get);
 
-// POST request to sign in.
-router.post('/sign-in', index_controller.sign_in_post);
+// POST request to log in.
+router.post('/login', checkNotAuthenticated, index_controller.login_post);
 
-// GET request to sign out.
-router.get('/sign-out', index_controller.sign_out_get);
+// GET request to log out.
+router.get('/logout', index_controller.logout_get);
 
-// GET request to sign up (create new User).
-router.get('/sign-up', user_controller.user_create_get);
+// GET request to register (create new User).
+router.get('/register', checkNotAuthenticated, user_controller.user_create_get);
 
-// POST request to sign up (create new User).
-router.post('/sign-up', user_controller.user_create_post);
+// POST request to register (create new User).
+router.post('/register', checkNotAuthenticated, user_controller.user_create_post);
 
 module.exports = router;

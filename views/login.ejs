@@ -23,19 +23,25 @@
     <div class="auth-box">
       <h2>Welcome back! 👋</h2>
 
-      <form action="/sign-in" method="POST">
+      <form action="/login" method="POST">
+        <% if (messages.error) { %>
+          <span class="error-msg"><%= messages.error %>.</span>
+        <% } %> 
+
         <fieldset>
           <label for="username">Username</label>
           <input type="text" name="username" id="username" />
         </fieldset>
+
         <fieldset>
           <label for="password">Password</label>
           <input type="password" name="password" id="password" />
         </fieldset>
+
         <button class="btn btn-primary">Log In</button>
       </form>
 
-      <p>Need an account? <a href="/sign-up">Sign up</a></p>
+      <p>Need an account? <a href="register">Sign up</a></p>
     </div>
   </section>
 </body>

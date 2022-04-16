@@ -30,7 +30,7 @@
         <span>🚀</span>
         <%= user.handle %>
       </a>
-      <a href="/sign-out" type="button" class="btn btn-secondary">Log out</a>
+      <a href="/logout" type="button" class="btn btn-secondary">Log out</a>
     </div>
   </header>
 
@@ -43,8 +43,8 @@
     </div>
 
     <div class="button-group">
-      <a href="" type="button" class="btn btn-primary btn-user">Update details</a>
-      <a href="" type="button" class="btn btn-danger">Delete account</a>
+      <a href="<%= user.url + '/update' %>" type="button" class="btn btn-primary btn-user">Update details</a>
+      <a href="<%= user.url + '/delete' %>" type="button" class="btn btn-danger">Delete account</a>
     </div>
   </main>
 

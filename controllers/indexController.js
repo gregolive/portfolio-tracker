@@ -1,29 +1,31 @@
 const passport = require('passport');
 
-// Display home page if a user is signed in or redirect to sign in.
+// Display home page if a user is loged in or redirect to log in.
 exports.home = (req, res, next) => {
   if (req.user) {
     res.render('index', { title: 'Home', user: req.user });
   } else {
-    res.redirect('/sign-in');
+    res.redirect('/login');
   }
+  return;
 };
 
-// Handle sign in on GET.
-exports.sign_in_get = (req, res, next) => {
-  res.render('sign-in', { title: 'Sign in' });
+// Handle log in on GET.
+exports.login_get = (req, res, next) => {
+  res.render('login', { title: 'Log in' });
 };
 
-// Handle sign in on POST.
-exports.sign_in_post = (
+// Handle log in on POST.
+exports.login_post = (
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/sign-in'
+    failureRedirect: '/login',
+    failureFlash: true
   })
 );
 
-// Handle sign out on GET.
-exports.sign_out_get = (req, res, next) => {
+// Handle log out on GET.
+exports.logout_get = (req, res, next) => {
   req.logout();
-  res.redirect('/sign-in');
+  res.redirect('/login');
 };

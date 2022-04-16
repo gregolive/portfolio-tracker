@@ -14,7 +14,7 @@ exports.user_detail = (req, res, next) => {
 
 // Display User create form on GET.
 exports.user_create_get = (req, res, next) => {
-  res.render('sign-up', { title: 'Sign up' });
+  res.render('register', { title: 'Register' });
 };
 
 // Handle User create on POST.
@@ -44,7 +44,7 @@ exports.user_create_post = [
 
     if (Object.keys(errors).length > 0) {
       // There are errors. Render form again with sanitized values/errors messages.
-      res.render('sign-up', { title: 'Sign up', user: req.body, errors: errors });
+      res.render('register', { title: 'Register', user: req.body, errors: errors });
       return;
     } else {
       // Data from form is valid. Create an User object with escaped and trimmed data and hashed password.
