@@ -221,6 +221,14 @@ input:focus {
   outline: 1px solid var(--primary1);
 }
 
+.btn-submit {
+  justify-self: start;
+}
+
+.small-input {
+  width: 50%;
+}
+
 @media screen and (max-width: 768px) {
   .button-group {
     flex-direction: column;
@@ -279,6 +287,14 @@ input:focus {
 
   main {
     padding: 2rem 1rem;
+  }
+
+  .btn-submit {
+    justify-self: stretch;
+  }
+
+  .small-input {
+    width: auto;
   }
 }
 

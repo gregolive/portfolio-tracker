@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | Tendies Tracker</title>
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/user-style.css' />
+  <link rel="icon" href="/images/favicon.ico" />
+  <script src="/javascripts/script.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">
+      <img src="../images/logo.png" alt="tendie tracker">
+      <span>Tendies Tracker</span>
+    </a>
+
+    <button type="button" class="btn btn-icon menu-open">
+      <span class="material-icons-outlined">menu</span>
+    </button>
+
+    <div class="header-links close">
+      <button type="button" class="btn btn-icon menu-close">
+        <span class="material-icons-outlined">close</span>
+      </button>
+      <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
+        <span>🚀</span>
+        <%= user.handle %>
+      </a>
+      <a href="/logout" type="button" class="btn btn-secondary">Log out</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>New portfolio 💎🙌</h1>
+
+    <form>
+      <fieldset>
+        <label for="name">Portfolio Name</label>
+        <input type="text" name="name" id="name" value="<%= (typeof portfolio === "undefined") ? "" : portfolio.name %>" class="small-input" />
+        <span class="error-msg">
+          <% if (typeof errors !== "undefined") { %>
+            <%= console.log(errors) %>
+            <%= errors["name"].msg %>
+          <% } %>
+        </span>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary btn-submit">Create</button>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-top">
+      <a href="/">
+        <img src="../images/logo.png" alt="tendie tracker" class="footer-img">
+      </a>
+      <a href="https://github.com/gregolive" target="_blank" rel="noopener">
+        <img src="../images/github.png" alt="github" class="footer-img">
+      </a>
+    </div>
+
+    <div class="footer-main">
+      <a href="" class="footer-link">Dummy Link 1</a>
+      <a href="" class="footer-link">Dummy Link 2</a>
+      <a href="" class="footer-link">Dummy Link 3</a>
+      <a href="" class="footer-link">Dummy Link 4</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>Market data provided by <a href="https://www.alphavantage.co/" target="_blank" rel="noopener">Alpha Vantage</a>.</span>
+      <span>&copy; gregolive</span>
+    </div>
+  </footer>
+</body>
+</html>

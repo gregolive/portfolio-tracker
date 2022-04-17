@@ -7,31 +7,32 @@ exports.portfolio_detail = (req, res) => {
 };
 
 // Display Portfolio create form on GET.
-exports.portfolio_create_get = (req, res, next) => {
-  res.render('portfolio/portfolio_form', { title: 'Create Portfolio' });
+exports.portfolio_create_get = (req, res) => {
+  res.render('portfolio/portfolio_form', { title: 'Create Portfolio', user: req.user });
 };
 
 // Handle Portfolio create on POST.
 exports.portfolio_create_post = [
   // Validate and sanitize the name field.
-  body('name', 'Portfolio name required').trim().isLength({ min: 1 }).escape(),
+  body('name', 'Portfolio named required.').trim().isLength({ min: 1 }).escape(),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
 
     // Extract the validation errors from a request.
-    const errors = validationResult(req);
+    const errors = validationResult(req).mapped();
 
     // Create a portfolio object with escaped and trimmed data.
     let portfolio = new Portfolio(
       { 
-        name: req.body.name
+        name: req.body.name,
+        owner: req.user,
       }
     );
 
-    if (!errors.isEmpty()) {
+    if (Object.keys(errors).length > 0) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render('portfolio/portfolio_form', { title: 'Create Portfolio', portfolio: portfolio, errors: errors.array()});
+      res.render('portfolio/portfolio_form', { title: 'Create Portfolio', user: req.user, portfolio: portfolio, errors: errors });
       return;
     }
     else {

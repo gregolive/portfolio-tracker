@@ -4,9 +4,6 @@ var router = express.Router();
 const portfolio_controller = require('../controllers/portfolioController');
 const { authenticateUser } = require('../config/auth-config');
 
-// GET request for one Portfolio.
-router.get('/portfolio/:id', authenticateUser, portfolio_controller.portfolio_detail);
-
 // GET request for creating a Portfolio.
 router.get('/create', authenticateUser, portfolio_controller.portfolio_create_get);
 
@@ -24,5 +21,8 @@ router.get('/:id/update', authenticateUser, portfolio_controller.portfolio_updat
 
 // POST request to update Portfolio.
 router.post('/:id/update', authenticateUser, portfolio_controller.portfolio_update_post);
+
+// GET request for one Portfolio.
+router.get('/:id', authenticateUser, portfolio_controller.portfolio_detail);
 
 module.exports = router;

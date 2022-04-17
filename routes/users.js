@@ -4,9 +4,6 @@ var router = express.Router();
 const user_controller = require('../controllers/userController');
 const { authenticateUser } = require('../config/auth-config');
 
-// GET request for one User.
-router.get('/:username', authenticateUser, user_controller.user_detail);
-
 // GET request to delete User.
 router.get('/:username/delete', authenticateUser, user_controller.user_delete_get);
 
@@ -18,5 +15,8 @@ router.get('/:username/update', authenticateUser, user_controller.user_update_ge
 
 // POST request to update User.
 router.post('/:username/update', authenticateUser, user_controller.user_update_post);
+
+// GET request for one User.
+router.get('/:username', authenticateUser, user_controller.user_detail);
 
 module.exports = router;

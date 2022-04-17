@@ -13,7 +13,7 @@ exports.user_detail = (req, res, next) => {
 };
 
 // Display User create form on GET.
-exports.user_create_get = (req, res, next) => {
+exports.user_create_get = (req, res) => {
   res.render('register', { title: 'Register' });
 };
 

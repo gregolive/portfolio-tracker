@@ -20,10 +20,6 @@ const UserSchema = new Schema(
       required: true,
       minLength: 6,
     },
-    portfolio: {
-      type: Schema.Types.ObjectId,
-      ref: 'Portfolio',
-    },
   }
 );
 
