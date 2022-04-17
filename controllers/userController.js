@@ -20,7 +20,7 @@ exports.user_create_get = (req, res, next) => {
 // Handle User create on POST.
 exports.user_create_post = [
   // Validate and sanitize fields.
-  body('username').trim().isLength({ min: 1 }).escape().withMessage('Username cannot be blank.')
+  body('username').trim().isLength({ min: 5 }).escape().withMessage('Username must be at least 5 characters long.')
     .isAlphanumeric().withMessage('Username has non-alphanumeric characters.').custom(username => {
       return User.findOne({ username: username }).then(user => {
         if (user) { return Promise.reject('Username already in use.'); }
@@ -31,10 +31,10 @@ exports.user_create_post = [
       if (user) { return Promise.reject('Email already in use.'); }
     });
   }),
-  body('password').trim().isLength({ min: 1 }).escape().withMessage('Please enter a password.'),
-  body('passwordConfirm').trim().custom((value, { req }) => {
+  body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long.'),
+  body('passwordConfirm').trim().isLength({ min: 6 }).escape().withMessage('Please confirm your password.').custom((value, { req }) => {
     if (value !== req.body.password) { throw new Error('Passwords do not match.'); }
-    return true; // Indicates the success of this synchronous custom validator
+    return true;
   }),
   
   // Process request after validation and sanitization.
@@ -58,7 +58,8 @@ exports.user_create_post = [
         user.save(function (error) {
           if (error) { return next(error); }
           // Successful - redirect home.
-          res.redirect('/');
+          req.session.message = 'Account created! 🎉 Please login.';
+          res.redirect('/login');
         });
       });
     }

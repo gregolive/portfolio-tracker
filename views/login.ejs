@@ -11,6 +11,15 @@
   <link rel="icon" href="/images/favicon.ico" />
 </head>
 <body>
+  <% if (message) { %> 
+    <span class="popup">
+      <%= message %>
+      <button type="button" class="btn btn-transparent">
+        <span class="material-icons-outlined">close</span>
+      </button>
+    </span>
+  <% } %> 
+
   <section class="welcome-page">
     <div class="welcome-box">
       <img src="./images/logo.png" alt="tendie tracker" class="welcome-logo">
