@@ -14,7 +14,7 @@ exports.portfolio_create_get = (req, res) => {
 // Handle Portfolio create on POST.
 exports.portfolio_create_post = [
   // Validate and sanitize the name field.
-  body('name', 'Portfolio named required.').trim().isLength({ min: 1 }).escape(),
+  body('name', 'Genre name required').trim().isLength({ min: 1 }).escape().withMessage('Portfolio named required.'),
 
   // Process request after validation and sanitization.
   (req, res, next) => {

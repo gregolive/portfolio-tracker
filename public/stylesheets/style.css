@@ -221,6 +221,11 @@ input:focus {
   outline: 1px solid var(--primary1);
 }
 
+.error-msg {
+  color: var(--secondary1);
+  font-size: 0.9rem;
+}
+
 .btn-submit {
   justify-self: start;
 }
