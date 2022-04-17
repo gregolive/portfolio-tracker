@@ -9,12 +9,13 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link rel='stylesheet' href='/stylesheets/auth-style.css' />
   <link rel="icon" href="/images/favicon.ico" />
+  <script src="/javascripts/popup.js" defer></script>
 </head>
 <body>
   <% if (message) { %> 
     <span class="popup">
       <%= message %>
-      <button type="button" class="btn btn-transparent">
+      <button type="button" class="btn btn-transparent popup-close">
         <span class="material-icons-outlined">close</span>
       </button>
     </span>

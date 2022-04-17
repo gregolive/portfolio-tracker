@@ -73,6 +73,10 @@
   right: 2rem;
 }
 
+.popup.close {
+  display: none;
+}
+
 @media screen and (max-width: 1024px) {
   .welcome-page {
     min-height: 88vh;
