@@ -28,14 +28,14 @@
       </button>
       <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
         <span>🚀</span>
-        <%= user.handle %>
+        <%= user.username %>
       </a>
       <a href="/logout" type="button" class="btn btn-secondary">Log out</a>
     </div>
   </header>
 
   <main>
-    <h1>Hello <%= user.handle %> 👋</h1>
+    <h1>Hello <%= user.username %> 👋</h1>
 
     <div class="account-details">
       <p><%= user.username %></p>
