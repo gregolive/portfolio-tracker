@@ -48,7 +48,7 @@
         <section class="card portfolio">
           <div class="card-header">
             <h2 class="card-title"><%= portfolio.name %></h2>
-            <span class="portfolio-total">$28307.78</span>
+            <span class="portfolio-total">$<%= total %></span>
           </div>
 
           <h3 class="card-subtitle">Day's gain</h3>
@@ -70,19 +70,16 @@
             <h2 class="card-title">Top Holdings</h2>
           </div>
         
-          <div class="card-row">
-            <h3 class="ticker">ARKG</h3>
-            <span class="price">42.75</span>
-            <p class="company">ARK Genomic Revolution ETF</p>
-            <span class="change percent-pos">+1.55%</span>
-          </div>
-
-          <div class="card-row">
-            <h3 class="ticker">BABA</h3>
-            <span class="price">101.53</span>
-            <p class="company">Alibaba Group Holding Limited</p>
-            <span class="change percent-neg">-0.45%</span>
-          </div>
+          <% if (top_holdings.length > 0) { %>
+            <% top_holdings.forEach((holding) => { %>
+              <div class="card-row">
+                <h3 class="ticker"><%= holding.ticker %></h3>
+                <span class="price"><%= holding.total %></span>
+                <p>ARK Genomic Revolution ETF</p>
+                <span class="change percent-pos">+1.55%</span>
+              </div>
+            <% }) %> 
+          <% } %>
         </section>
 
         <section class="card transactions">
@@ -90,12 +87,16 @@
             <h2 class="card-title">Recent Transactions</h2>
           </div>
 
-          <div class="card-row">
-            <h3 class="ticker">PINS</h3>
-            <span class="shares">20 shares</span>
-            <p class="company">Pinterest, Inc.</p>
-            <span class="avg-price">$120.34</span>
-          </div>
+          <% if (recent_transactions.length > 0) { %>
+            <% recent_transactions.forEach((transaction) => { %> 
+              <div class="card-row">
+                <h3 class="ticker"><%= transaction.ticker %></h3>
+                <span class="shares"><%= transaction.shares %> shares</span>
+                <p><%= formatDate(transaction.date, 'LLL dd, yyyy') %></p>
+                <span class="avg-price">$<%= transaction.total.toFixed(2) %></span>
+              </div>
+            <% }) %> 
+          <% } %> 
         </section>
       </div>
     <% } %> 

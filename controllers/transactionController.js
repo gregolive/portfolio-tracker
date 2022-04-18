@@ -38,6 +38,7 @@ exports.transaction_create_post = [
         avg_price: req.body.avg_price,
         type: req.body.type,
         portfolio: req.params.portfolio_id,
+        user: req.user._id,
       }
     );
 
@@ -51,7 +52,7 @@ exports.transaction_create_post = [
       transaction.save((err) => {
         if (err) { return next(err); }
         // Transaction saved. Redirect to transaction detail page.
-        res.redirect(transaction.url);
+        res.redirect(portfolio.url);
       });
     }
   }

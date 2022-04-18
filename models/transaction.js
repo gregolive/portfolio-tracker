@@ -27,9 +27,9 @@ const TransactionSchema = new Schema(
       enum: ['Buy', 'Sell'],
       default: 'Buy',
     },
-    portfolio: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: 'Portfolio',
+      ref: 'User',
       required: true,
     },
   }
@@ -39,7 +39,7 @@ const TransactionSchema = new Schema(
 TransactionSchema
 .virtual('total')
 .get(function () {
-  return this.price * this.price;
+  return (this.type === 'Buy') ? this.avg_price * this.shares : -(this.avg_price * this.shares);
 });
 
 // Virtual for transaction's URL

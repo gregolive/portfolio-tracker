@@ -1,4 +1,5 @@
 const Portfolio = require('../models/portfolio');
+const Transaction = require('../models/transaction');
 const { body, validationResult } = require('express-validator');
 const async = require('async');
 
@@ -8,15 +9,18 @@ exports.portfolio_detail = (req, res, next) => {
     portfolio: (callback) => {
       Portfolio.findById(req.params.id).exec(callback);
     },
+    transactions: (callback) => {
+      Transaction.find({ 'user': req.user._id }).exec(callback);
+    },
   }, (err, results) => {
-      if (err) { return next(err); }
-      if (results.portfolio == null) { // No results.
-        let err = new Error('Portfolio not found');
-        err.status = 404;
-        return next(err);
-      }
-      // Successful, so render
-      res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio } );
+    if (err) { return next(err); }
+    if (results.portfolio == null) { // No results.
+      let err = new Error('Portfolio not found');
+      err.status = 404;
+      return next(err);
+    }
+    // Successful, so render
+    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions } );
   });
 };
 

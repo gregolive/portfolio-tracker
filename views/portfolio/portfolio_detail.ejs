@@ -40,6 +40,12 @@
     <div class="button-group">
       <a href="<%= portfolio.url %>/transaction/create" type="button" class="btn btn-primary">+ New transaction</a>
     </div>
+
+    <% if (typeof transactions !== "undefined") { %>
+      <% transactions.forEach((transaction) => { %>
+        
+      <% }) %>
+    <% } %>
   </main>
 
   <footer>
