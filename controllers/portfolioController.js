@@ -5,11 +5,10 @@ const async = require('async');
 // Display detail page for a specific Portfolio.
 exports.portfolio_detail = (req, res, next) => {
   async.parallel({
-    portfolio: function(callback) {
-        Portfolio.findById(req.params.id)
-          .exec(callback);
+    portfolio: (callback) => {
+      Portfolio.findById(req.params.id).exec(callback);
     },
-  }, function(err, results) {
+  }, (err, results) => {
       if (err) { return next(err); }
       if (results.portfolio == null) { // No results.
           let err = new Error('Portfolio not found');
@@ -52,7 +51,7 @@ exports.portfolio_create_post = [
     }
     else {
       // Data from form is valid.
-      portfolio.save(function (err) {
+      portfolio.save((err) => {
           if (err) { return next(err); }
           // Portfolio saved. Redirect to portfolio detail page.
           res.redirect(portfolio.url);

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 // Display detail page for a specific User.
 exports.user_detail = (req, res, next) => {
   User.findOne({ username: req.params.username })
-    .exec(function (err, user) {
+    .exec((err, user) => {
       if (err) { return next(err); }
       //Successful, so render
       res.render('user/user_detail', { title: user.username, user: user });
@@ -55,7 +55,7 @@ exports.user_create_post = [
           email: req.body.email,
           password: hashedPassword,
         });
-        user.save(function (error) {
+        user.save((error) => {
           if (error) { return next(error); }
           // Successful - redirect home.
           req.session.message = 'Account created! 🎉 Please login.';

@@ -4,7 +4,7 @@ const Portfolio = require('../models/portfolio');
 // Display home page if a user is loged in or redirect to log in.
 exports.home = (req, res, next) => {
   Portfolio.findOne({ 'owner': req.user._id })
-    .exec(function (err, portfolio) {
+    .exec((err, portfolio) => {
       if (err) { return next(err); }
       // Successful, so render.
       res.render('index', { title: 'Home', user: req.user, portfolio: portfolio });
