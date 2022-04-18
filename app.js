@@ -12,6 +12,7 @@ const initializePassport = require('./config/passport-config')
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/users');
 const portfolioRouter = require('./routes/portfolios');
+const transactionRouter = require('./routes/portfolios');
 
 // configure dotenv variables
 require('dotenv').config();
@@ -45,14 +46,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/portfolio', portfolioRouter);
+app.use('/transaction', transactionRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

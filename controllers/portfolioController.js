@@ -11,9 +11,9 @@ exports.portfolio_detail = (req, res, next) => {
   }, (err, results) => {
       if (err) { return next(err); }
       if (results.portfolio == null) { // No results.
-          let err = new Error('Portfolio not found');
-          err.status = 404;
-          return next(err);
+        let err = new Error('Portfolio not found');
+        err.status = 404;
+        return next(err);
       }
       // Successful, so render
       res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio } );
@@ -28,11 +28,10 @@ exports.portfolio_create_get = (req, res, next) => {
 // Handle Portfolio create on POST.
 exports.portfolio_create_post = [
   // Validate and sanitize the name field.
-  body('name', 'Genre name required').trim().isLength({ min: 1 }).escape().withMessage('Portfolio named required.'),
+  body('name', 'Portfolio name required').trim().isLength({ min: 1 }).escape(),
 
   // Process request after validation and sanitization.
   (req, res, next) => {
-
     // Extract the validation errors from a request.
     const errors = validationResult(req).mapped();
 
@@ -52,9 +51,9 @@ exports.portfolio_create_post = [
     else {
       // Data from form is valid.
       portfolio.save((err) => {
-          if (err) { return next(err); }
-          // Portfolio saved. Redirect to portfolio detail page.
-          res.redirect(portfolio.url);
+        if (err) { return next(err); }
+        // Portfolio saved. Redirect to portfolio detail page.
+        res.redirect(portfolio.url);
       });
     }
   }

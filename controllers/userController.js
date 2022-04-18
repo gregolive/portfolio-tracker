@@ -13,27 +13,27 @@ exports.user_detail = (req, res, next) => {
 };
 
 // Display User create form on GET.
-exports.user_create_get = (req, res) => {
+exports.user_create_get = (req, res, next) => {
   res.render('register', { title: 'Register' });
 };
 
 // Handle User create on POST.
 exports.user_create_post = [
   // Validate and sanitize fields.
-  body('username').trim().isLength({ min: 5 }).escape().withMessage('Username must be at least 5 characters long.')
-    .isAlphanumeric().withMessage('Username has non-alphanumeric characters.').custom(username => {
+  body('username').trim().isLength({ min: 5 }).escape().withMessage('Username must be at least 5 characters long')
+    .isAlphanumeric().withMessage('Username has non-alphanumeric characters').custom(username => {
       return User.findOne({ username: username }).then(user => {
-        if (user) { return Promise.reject('Username already in use.'); }
+        if (user) { return Promise.reject('Username already in use'); }
       });
     }),
-  body('email').trim().escape().isEmail().withMessage('Email must be valid.').custom(email => {
+  body('email').trim().escape().isEmail().withMessage('Email must be valid').custom(email => {
     return User.findOne({ email: email }).then(user => {
-      if (user) { return Promise.reject('Email already in use.'); }
+      if (user) { return Promise.reject('Email already in use'); }
     });
   }),
-  body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long.'),
-  body('passwordConfirm').trim().isLength({ min: 6 }).escape().withMessage('Please confirm your password.').custom((value, { req }) => {
-    if (value !== req.body.password) { throw new Error('Passwords do not match.'); }
+  body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long'),
+  body('passwordConfirm').trim().isLength({ min: 6 }).escape().withMessage('Please confirm your password').custom((value, { req }) => {
+    if (value !== req.body.password) { throw new Error('Passwords do not match'); }
     return true;
   }),
   
@@ -67,21 +67,21 @@ exports.user_create_post = [
 ];
 
 // Display User delete form on GET.
-exports.user_delete_get = (req, res) => {
+exports.user_delete_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: User delete GET');
 };
 
 // Handle User delete on POST.
-exports.user_delete_post = (req, res) => {
+exports.user_delete_post = (req, res, next) => {
   res.send('NOT IMPLEMENTED: User delete POST');
 };
 
 // Display User update form on GET.
-exports.user_update_get = (req, res) => {
+exports.user_update_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: User update GET');
 };
 
 // Handle User update on POST.
-exports.user_update_post = (req, res) => {
+exports.user_update_post = (req, res, next) => {
   res.send('NOT IMPLEMENTED: User update POST');
 };
