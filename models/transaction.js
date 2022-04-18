@@ -7,10 +7,11 @@ const TransactionSchema = new Schema(
       type: Date,
       required: true,
     },
-    asset: {
-      type: Schema.Types.ObjectId,
-      ref: 'Asset',
+    ticker: {
+      type: String,
       required: true,
+      minLength: 3,
+      maxLength: 5,
     },
     shares: {
       type: Number,

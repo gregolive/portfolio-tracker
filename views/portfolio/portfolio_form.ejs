@@ -35,7 +35,7 @@
   </header>
 
   <main>
-    <h1>New portfolio 💎🙌</h1>
+    <h1>New portfolio 🍾</h1>
 
     <form method="post" action="">
       <fieldset>
@@ -43,7 +43,6 @@
         <input type="text" name="name" id="name" value="<%= (typeof portfolio === "undefined") ? "" : portfolio.name %>" class="small-input" />
         <span class="error-msg">
           <% if (typeof errors !== "undefined") { %>
-            <%= console.log(errors) %>
             <%= errors["name"].msg %>
           <% } %>
         </span>

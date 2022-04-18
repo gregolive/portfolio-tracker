@@ -209,16 +209,22 @@ label {
   font-size: 1.1rem;
 }
 
-input {
+input, select {
+  font-family: 'Open Sans', sans-serif;
   background: white;
   font-size: 1rem;
   border: none;
   border-radius: 0.2rem;
   padding: 0.4rem 0.5rem;
+  box-sizing: border-box;
 }
 
 input:focus {
-  outline: 1px solid var(--primary1);
+  outline: 2px solid var(--primary1);
+}
+
+select:focus {
+  outline: 2px solid var(--primary1);
 }
 
 .error-msg {
@@ -231,7 +237,7 @@ input:focus {
 }
 
 .small-input {
-  width: 50%;
+  width: max(50%, 25rem);
 }
 
 @media screen and (max-width: 768px) {

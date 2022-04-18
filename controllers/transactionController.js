@@ -1,8 +1,7 @@
-const Portfolio = require('../models/portfolio');
 const Transaction = require('../models/transaction');
 const { body, validationResult } = require('express-validator');
 const async = require('async');
-const portfolio = require('../models/portfolio');
+const { format } = require('date-fns');
 
 // Display detail page for a specific Transaction.
 exports.transaction_detail = (req, res, next) => {
@@ -11,17 +10,13 @@ exports.transaction_detail = (req, res, next) => {
 
 // Display Transaction create form on GET.
 exports.transaction_create_get = (req, res, next) => {
-  res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user });
+  res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format });
 };
 
 // Handle Transaction create on POST.
 exports.transaction_create_post = [
-  // Find user's portfolio
-  {portfolio: (callback) => {
-    Portfolio.findOne({ owner: req.user._id }).exec(callback);
-  }},
   // Validate and sanitize the name field.
-  body('date', 'Invalid date').optional({ checkFalsy: true }).isISO8601().toDate(),
+  body('date', 'Invalid date').isISO8601().toDate(),
   body('ticker', 'Ticker must be between 3 and 5 characters').trim().isLength({ min: 3, max: 5 }).escape(),
   body('shares', 'Number of shares required').trim().isLength({ min: 1 }).escape()
     .isNumeric().withMessage('Entered value must be a number'),
@@ -42,13 +37,13 @@ exports.transaction_create_post = [
         shares: req.body.shares,
         avg_price: req.body.avg_price,
         type: req.body.type,
-        portfolio: portfolio,
+        portfolio: req.params.portfolio_id,
       }
     );
 
     if (Object.keys(errors).length > 0) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user, transaction: transaction, errors: errors });
+      res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format, transaction: transaction, errors: errors });
       return;
     }
     else {

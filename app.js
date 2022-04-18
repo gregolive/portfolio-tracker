@@ -12,7 +12,7 @@ const initializePassport = require('./config/passport-config')
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/users');
 const portfolioRouter = require('./routes/portfolios');
-const transactionRouter = require('./routes/portfolios');
+const transactionRouter = require('./routes/transactions');
 
 // configure dotenv variables
 require('dotenv').config();
@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/portfolio', portfolioRouter);
-app.use('/transaction', transactionRouter);
+app.use('/portfolio/:portfolio_id/transaction', transactionRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
