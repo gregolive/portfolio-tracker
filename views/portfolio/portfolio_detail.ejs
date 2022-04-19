@@ -7,7 +7,7 @@
   <title><%= title %> | Tendies Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link rel='stylesheet' href='/stylesheets/user-style.css' />
+  <link rel='stylesheet' href='/stylesheets/portfolio-style.css' />
   <link rel="icon" href="/images/favicon.ico" />
   <script src="/javascripts/script.js" defer></script>
 </head>
@@ -36,16 +36,64 @@
 
   <main>
     <h1><%= portfolio.name %> </h1>
-
-    <div class="button-group">
-      <a href="<%= portfolio.url %>/transaction/create" type="button" class="btn btn-primary">+ New transaction</a>
+    
+    <div class="button-group edit-delete">
+      <a href="<%= portfolio.url + '/update' %>" type="button" class="btn btn-primary btn-user">Edit portfolio</a>
+      <a href="<%= portfolio.url + '/delete' %>" type="button" class="btn btn-secondary btn-danger">Delete portfolio</a>
     </div>
 
-    <% if (typeof transactions !== "undefined") { %>
-      <% transactions.forEach((transaction) => { %>
-        
-      <% }) %>
-    <% } %>
+    <section>
+      <h2>Holdings</h2>
+
+      <% if (typeof holdings !== "undefined") { %>
+        <table>
+          <tr>
+            <th>Ticker</th>
+            <th>Shares</th>
+            <th>Average Price</th>
+            <th>Cost Basis</th>
+            <th>Portfolio Weight</th>
+          </tr>
+          <% holdings.forEach((holding) => { %>
+            <tr>
+              <td class="ticker-col"><%= holding.ticker %></td>
+              <td><%= holding.shares %></td>
+              <td>$<%= (holding.total / holding.shares).toFixed(2) %></td>
+              <td>$<%= holding.total.toFixed(2) %></td>
+              <td><%= (holding.total / portfolio_value * 100).toFixed(1) %>%</td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+    </section>
+
+    <section>
+      <h2>Transactions</h2>
+
+      <div class="button-group">
+        <a href="<%= portfolio.url %>/transaction/create" type="button" class="btn btn-secondary">+ New transaction</a>
+      </div>
+
+      <% if (typeof transactions !== "undefined") { %>
+        <div class="transactions">
+          <% transactions.forEach((transaction) => { %>
+            <a href="<%= portfolio.url + transaction.url %>" class="transaction-row">
+              <div>
+                <h3 class="ticker"><%= transaction.ticker %></h3>
+                <p><%= formatDate(transaction.date, 'LLL dd, yyyy') %></p>
+              </div>
+              <div>
+                <p class="shares"><%= transaction.shares %> shares</p>
+                <span class="avg-price">$<%= transaction.total.toFixed(2) %></span>
+              </div>
+              <span class="material-icons-outlined">
+                arrow_forward_ios
+                </span>
+            </a>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
   </main>
 
   <footer>

@@ -37,14 +37,14 @@
   <main>
     <h1>Hello <%= user.username %> 👋</h1>
 
-    <div class="details">
-      <strong>Username:</strong><%= user.username %>
-      <strong>Email:</strong><%= user.email %>
-    </div>
-
     <div class="button-group edit-delete">
       <a href="<%= user.url + '/update' %>" type="button" class="btn btn-primary btn-user">Update details</a>
       <a href="<%= user.url + '/delete' %>" type="button" class="btn btn-secondary btn-danger">Delete account</a>
+    </div>
+
+    <div class="details">
+      <strong>Username:</strong><%= user.username %>
+      <strong>Email:</strong><%= user.email %>
     </div>
   </main>
 

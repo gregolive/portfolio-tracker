@@ -48,7 +48,7 @@
         <section class="card portfolio">
           <div class="card-header">
             <h2 class="card-title"><%= portfolio.name %></h2>
-            <span class="portfolio-total">$<%= total %></span>
+            <span class="portfolio-total">$<%= portfolio_value.toFixed(2) %></span>
           </div>
 
           <h3 class="card-subtitle">Day's gain</h3>
@@ -74,7 +74,7 @@
             <% top_holdings.forEach((holding) => { %>
               <div class="card-row">
                 <h3 class="ticker"><%= holding.ticker %></h3>
-                <span class="price"><%= holding.total %></span>
+                <span class="price"><%= holding.total.toFixed(2) %></span>
                 <p>ARK Genomic Revolution ETF</p>
                 <span class="change percent-pos">+1.55%</span>
               </div>

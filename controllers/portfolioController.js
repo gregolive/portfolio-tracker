@@ -1,7 +1,9 @@
 const Portfolio = require('../models/portfolio');
 const Transaction = require('../models/transaction');
+const { portfolioValue, portfolioHoldings } = require('../config/query-config');
 const { body, validationResult } = require('express-validator');
 const async = require('async');
+const { format } = require('date-fns');
 
 // Display detail page for a specific Portfolio.
 exports.portfolio_detail = (req, res, next) => {
@@ -20,7 +22,9 @@ exports.portfolio_detail = (req, res, next) => {
       return next(err);
     }
     // Successful, so render
-    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions } );
+    const portfolio_value = portfolioValue(results.transactions);
+    const holdings = portfolioHoldings(results.transactions);
+    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions, portfolio_value: portfolio_value, holdings: holdings, formatDate: format } );
   });
 };
 
