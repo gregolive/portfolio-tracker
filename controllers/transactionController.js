@@ -52,7 +52,7 @@ exports.transaction_create_post = [
       transaction.save((err) => {
         if (err) { return next(err); }
         // Transaction saved. Redirect to transaction detail page.
-        res.redirect(portfolio.url);
+        res.redirect(req.user.url + transaction.url);
       });
     }
   }

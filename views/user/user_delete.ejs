@@ -14,7 +14,7 @@
 <body>
   <header>
     <a href="/" class="logo">
-      <img src="../images/logo.png" alt="tendie tracker">
+      <img src="../../images/logo.png" alt="tendie tracker">
       <span>Tendies Tracker</span>
     </a>
 
@@ -35,26 +35,31 @@
   </header>
 
   <main>
-    <h1>Hello <%= user.username %> 👋</h1>
+    <h1>Delete Account</h1>
 
-    <div class="account-details">
-      <p><%= user.username %></p>
-      <p><%= user.email %></p>
-    </div>
+    <% if (portfolio && transaction_count > 0) { %>
+      <p>By deleting your account your <a href="<%= portfolio.url %>">portfolio</a> and <a href="<%= user.url %>/transactions"><%= transaction_count %> <%= transaction_count === 1 ? 'transaction' : 'transactions' %></a> will also be deleted.</p>
+    <% } else if (portfolio) { %>
+      <p>By deleting your account your <a href="<%= portfolio.url %>">portfolio</a> will also be deleted.</p>
+    <% } %>
 
-    <div class="button-group">
-      <a href="<%= user.url + '/update' %>" type="button" class="btn btn-primary btn-user">Update details</a>
-      <a href="<%= user.url + '/delete' %>" type="button" class="btn btn-secondary btn-danger">Delete account</a>
-    </div>
+    <p>Are you sure you want to delete your account?</p>
+
+    <form method="post" action="">
+      <input type="hidden" name="userid" id="userid" value="<%= user._id %>">
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary btn-danger">Delete</button>
+      </div>
+    </form>
   </main>
 
   <footer>
     <div class="footer-top">
       <a href="/">
-        <img src="../images/logo.png" alt="tendie tracker" class="footer-img">
+        <img src="../../images/logo.png" alt="tendie tracker" class="footer-img">
       </a>
       <a href="https://github.com/gregolive" target="_blank" rel="noopener">
-        <img src="../images/github.png" alt="github" class="footer-img">
+        <img src="../../images/github.png" alt="github" class="footer-img">
       </a>
     </div>
 

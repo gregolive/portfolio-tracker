@@ -78,7 +78,11 @@ a {
   border: 1px solid var(--primary1);
 }
 
-.btn-danger {
+.btn-primary.btn-danger {
+  background: var(--secondary1);
+}
+
+.btn-secondary.btn-danger {
   color: var(--secondary1);
   border: 1px solid var(--secondary1);
 }
@@ -89,6 +93,10 @@ a {
 
 .btn-secondary:hover, .btn-danger:hover {
   background: var(--bg2);
+}
+
+.btn-primary.btn-danger:hover {
+  background: var(--secondary2);
 }
 
 .btn-icon {

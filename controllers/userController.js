@@ -1,14 +1,16 @@
 const User = require('../models/user');
+const Portfolio = require('../models/portfolio');
+const Transaction = require('../models/transaction');
 const { body, validationResult } = require('express-validator');
+const async = require('async');
 const bcrypt = require('bcryptjs');
 
 // Display detail page for a specific User.
 exports.user_detail = (req, res, next) => {
-  User.findOne({ username: req.params.username })
-    .exec((err, user) => {
-      if (err) { return next(err); }
-      //Successful, so render
-      res.render('user/user_detail', { title: user.username, user: user });
+  User.findOne({ username: req.params.username }).exec((err, user) => {
+    if (err) { return next(err); }
+    //Successful, so render
+    res.render('user/user_detail', { title: user.username, user: user });
   });
 };
 
@@ -68,12 +70,41 @@ exports.user_create_post = [
 
 // Display User delete form on GET.
 exports.user_delete_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: User delete GET');
+  async.parallel({
+    portfolio: (callback) => {
+      Portfolio.findOne({ 'owner': req.user._id }).exec(callback)
+    },
+    transaction_count: (callback) => {
+      Transaction.countDocuments({ 'user': req.user._id }, callback)
+    },
+  }, (err, results) => {
+    if (err) { return next(err); }
+    if (req.user == null) { // No results, redirect to index.
+      res.redirect('/');
+    }
+    // Successful, so render.
+    res.render('user/user_delete', { title: 'Delete Account', user: req.user, portfolio: results.portfolio, transaction_count: results.transaction_count });
+  });
 };
 
 // Handle User delete on POST.
 exports.user_delete_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: User delete POST');
+  // Delete user, their portfolio, and transactions.
+  async.parallel({
+    one: (callback) => {
+      User.findByIdAndDelete(req.body.userid).exec(callback)
+    },
+    two: (callback) => {
+      Portfolio.deleteOne({ 'owner': req.body.userid }).exec(callback)
+    },
+    three: (callback) => {
+      Transaction.deleteMany({ 'user': req.body.userid }).exec(callback)
+    },
+  }, (err, results) => {
+    if (err) { return next(err); }
+    // Success - go to login page
+    res.redirect('/');
+  });
 };
 
 // Display User update form on GET.
