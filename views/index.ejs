@@ -79,7 +79,9 @@
                 <span class="change percent-pos">+1.55%</span>
               </div>
             <% }) %> 
-          <% } %>
+            <% } else { %>
+              <p>Your portfolio has no holdings 😭</p>
+            <% } %> 
         </section>
 
         <section class="card transactions">
@@ -96,6 +98,8 @@
                 <span class="avg-price">$<%= transaction.total.toFixed(2) %></span>
               </div>
             <% }) %> 
+          <% } else { %>
+            <a href="<%= portfolio.url %>/transaction/create" class="plain-link">Add your first transaction 🤑</a>
           <% } %> 
         </section>
       </div>
