@@ -45,6 +45,8 @@
     <div class="details">
       <strong>Username:</strong><%= user.username %>
       <strong>Email:</strong><%= user.email %>
+      <strong>Portfolio:</strong><% if (typeof portfolio === "undefined") { %> none <% } else { %><a href="<%= portfolio.url %>"><%= portfolio.name %></a> <% } %>
+      <strong>Transactions:</strong><%= transaction_count %>
     </div>
   </main>
 

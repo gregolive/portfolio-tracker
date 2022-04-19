@@ -7,10 +7,20 @@ const bcrypt = require('bcryptjs');
 
 // Display detail page for a specific User.
 exports.user_detail = (req, res, next) => {
-  User.findOne({ username: req.params.username }).exec((err, user) => {
+  async.parallel({
+    user: (callback) => {
+      User.findOne({ username: req.params.username }).exec(callback)
+    },
+    portfolio: (callback) => {
+      Portfolio.findOne({ 'owner': req.user._id }).exec(callback);
+    },
+    transaction_count: (callback) => {
+      Transaction.countDocuments({ 'user': req.user._id }, callback)
+    },
+  }, (err, results) => {
     if (err) { return next(err); }
     //Successful, so render
-    res.render('user/user_detail', { title: user.username, user: user });
+    res.render('user/user_detail', { title: results.user.username, user: results.user, portfolio: results.portfolio, transaction_count: results.transaction_count});
   });
 };
 
@@ -109,7 +119,17 @@ exports.user_delete_post = (req, res, next) => {
 
 // Display User update form on GET.
 exports.user_update_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: User update GET');
+  // Get user for form.
+  User.findOne({ username: req.params.username }).exec((err, user) => {
+    if (err) { return next(err); }
+    if (user == null) { // No results.
+      let err = new Error('User not found');
+      err.status = 404;
+      return next(err);
+    }
+    // Success.
+    res.render('user/user_update', { title: 'Update Account', user: user });
+  });
 };
 
 // Handle User update on POST.
