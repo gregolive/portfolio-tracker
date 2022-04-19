@@ -1,11 +1,28 @@
 const Transaction = require('../models/transaction');
+const Portfolio = require('../models/portfolio');
 const { body, validationResult } = require('express-validator');
 const async = require('async');
 const { format } = require('date-fns');
 
 // Display detail page for a specific Transaction.
 exports.transaction_detail = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Transaction detail GET');
+  async.parallel({
+    transaction: (callback) => {
+      Transaction.findById(req.params.id).exec(callback);
+    },
+    portfolio: (callback) => {
+      Portfolio.findOne({ 'owner': req.user._id }).exec(callback);
+    },
+  }, (err, results) => {
+    if (err) { return next(err); }
+    if (results.transaction == null) { // No results.
+      let err = new Error('Transaction not found');
+      err.status = 404;
+      return next(err);
+    }
+    // Successful, so render
+    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: results.transaction, portfolio: results.portfolio, formatDate: format } );
+  });
 };
 
 // Display Transaction create form on GET.
@@ -52,7 +69,7 @@ exports.transaction_create_post = [
       transaction.save((err) => {
         if (err) { return next(err); }
         // Transaction saved. Redirect to transaction detail page.
-        res.redirect(req.user.url + transaction.url);
+        res.redirect('/portfolio/' + req.params.portfolio_id + transaction.url);
       });
     }
   }
