@@ -25,11 +25,11 @@
       <button type="button" class="btn btn-icon menu-close">
         <span class="material-icons-outlined">close</span>
       </button>
-      <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
+      <a href="<%= user.url %>" class="btn btn-primary btn-user">
         <span>🚀</span>
         <%= user.username %>
       </a>
-      <a href="/logout" type="button" class="btn btn-secondary">Log out</a>
+      <a href="/logout" class="btn btn-secondary">Log out</a>
     </div>
   </header>
 
@@ -47,8 +47,8 @@
     </div>
 
     <div class="button-group edit-delete">
-      <a href="<%= portfolio.url + transaction.url + '/update' %>" type="button" class="btn btn-primary btn-user">Edit transaction</a>
-      <a href="<%= portfolio.url + transaction.url + '/delete' %>" type="button" class="btn btn-secondary btn-danger">Delete transaction</a>
+      <a href="<%= portfolio.url + transaction.url + '/update' %>" class="btn btn-primary btn-user">Edit transaction</a>
+      <a href="<%= portfolio.url + transaction.url + '/delete' %>" class="btn btn-secondary btn-danger">Delete transaction</a>
     </div>
   </main>
 

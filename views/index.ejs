@@ -26,11 +26,11 @@
       <button type="button" class="btn btn-icon menu-close">
         <span class="material-icons-outlined">close</span>
       </button>
-      <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
+      <a href="<%= user.url %>" class="btn btn-primary btn-user">
         <span>🚀</span>
         <%= user.username %>
       </a>
-      <a href="/logout" type="button" class="btn btn-secondary">Log out</a>
+      <a href="/logout" class="btn btn-secondary">Log out</a>
     </div>
   </header>
 
@@ -41,7 +41,7 @@
       <p>Let's get you started with a new portfolio:</p>
 
       <div class="button-group">
-        <a href="/portfolio/create" type="button" class="btn btn-primary">+ Create portfolio</a>
+        <a href="/portfolio/create" class="btn btn-primary">+ Create portfolio</a>
       </div>
     <% } else { %> 
       <div class="dashboard">
