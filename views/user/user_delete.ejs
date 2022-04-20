@@ -35,12 +35,12 @@
   </header>
 
   <main>
-    <h1>Delete Account</h1>
+    <h1><%= title %></h1>
 
     <% if (portfolio && transaction_count > 0) { %>
-      <p>By deleting your account your <a href="<%= portfolio.url %>">portfolio</a> and <a href="<%= user.url %>/transactions"><%= transaction_count %> <%= transaction_count === 1 ? 'transaction' : 'transactions' %></a> will also be deleted.</p>
+      <strong>By deleting your account your <a href="<%= portfolio.url %>">portfolio</a> and <a href="<%= portfolio.url %>/transactions"><%= transaction_count %> <%= transaction_count === 1 ? 'transaction' : 'transactions' %></a> will also be deleted.</strong>
     <% } else if (portfolio) { %>
-      <p>By deleting your account your <a href="<%= portfolio.url %>">portfolio</a> will also be deleted.</p>
+      <strong>By deleting your account your <a href="<%= portfolio.url %>">portfolio</a> will also be deleted.</strong>
     <% } %>
 
     <p>Are you sure you want to delete your account?</p>
@@ -49,6 +49,7 @@
       <input type="hidden" name="userid" id="userid" value="<%= user._id %>">
       <div class="button-group">
         <button type="submit" class="btn btn-primary btn-danger">Delete</button>
+        <a href="<%= user.url %>" class="btn btn-secondary">Cancel</a>
       </div>
     </form>
   </main>

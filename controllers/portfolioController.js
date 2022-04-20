@@ -68,12 +68,38 @@ exports.portfolio_create_post = [
 
 // Display Portfolio delete form on GET.
 exports.portfolio_delete_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Portfolio delete GET');
+  async.parallel({
+    portfolio: (callback) => {
+      Portfolio.findById(req.params.id).exec(callback)
+    },
+    transaction_count: (callback) => {
+      Transaction.countDocuments({ 'user': req.user._id }, callback)
+    },
+  }, (err, results) => {
+    if (err) { return next(err); }
+    if (req.user == null) { // No results, redirect to index.
+      res.redirect('/');
+    }
+    // Successful, so render.
+    res.render('portfolio/portfolio_delete', { title: 'Delete Portfolio', user: req.user, portfolio: results.portfolio, transaction_count: results.transaction_count });
+  });
 };
 
 // Handle Portfolio delete on POST.
 exports.portfolio_delete_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Portfolio delete POST');
+  // Delete portfolio and related transactions.
+  async.parallel({
+    one: (callback) => {
+      Portfolio.findByIdAndDelete(req.body.portfolioid).exec(callback)
+    },
+    two: (callback) => {
+      Transaction.deleteMany({ 'user': req.user._id }).exec(callback)
+    },
+  }, (err, results) => {
+    if (err) { return next(err); }
+    // Success - go to home page
+    res.redirect('/');
+  });
 };
 
 // Display Portfolio update form on GET.

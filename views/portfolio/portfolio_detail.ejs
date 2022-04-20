@@ -45,7 +45,7 @@
     <section>
       <h2>Holdings</h2>
 
-      <% if (typeof holdings !== "undefined") { %>
+      <% if (holdings.length > 0) { %>
         <table>
           <tr>
             <th>Ticker</th>
@@ -64,7 +64,9 @@
             </tr>
           <% }) %>
         </table>
-      <% } %>
+      <% } else { %>
+        <p>Your portfolio has no holdings 😭</p>
+      <% } %> 
     </section>
 
     <section>
@@ -74,7 +76,7 @@
         <a href="<%= portfolio.url %>/transactions/create" type="button" class="btn btn-secondary">+ New transaction</a>
       </div>
 
-      <% if (typeof transactions !== "undefined") { %>
+      <% if (transactions.length > 0) { %>
         <div class="transactions">
           <% transactions.forEach((transaction) => { %>
             <a href="<%= portfolio.url + transaction.url %>" class="transaction-row">

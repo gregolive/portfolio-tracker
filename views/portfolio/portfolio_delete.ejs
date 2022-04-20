@@ -7,24 +7,14 @@
   <title><%= title %> | Tendies Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link rel='stylesheet' href='/stylesheets/user-style.css' />
+  <link rel='stylesheet' href='/stylesheets/portfolio-style.css' />
   <link rel="icon" href="/images/favicon.ico" />
   <script src="/javascripts/script.js" defer></script>
-  <script src="/javascripts/popup.js" defer></script>
 </head>
 <body>
-  <% if (message) { %> 
-    <span class="popup">
-      <%= message %>
-      <button type="button" class="btn btn-transparent popup-close">
-        <span class="material-icons-outlined">close</span>
-      </button>
-    </span>
-  <% } %> 
-
   <header>
     <a href="/" class="logo">
-      <img src="../images/logo.png" alt="tendie tracker">
+      <img src="../../images/logo.png" alt="tendie tracker">
       <span>Tendies Tracker</span>
     </a>
 
@@ -36,7 +26,7 @@
       <button type="button" class="btn btn-icon menu-close">
         <span class="material-icons-outlined">close</span>
       </button>
-      <a href="<%= user.url %>" type="button" class="btn btn-primary btn-user">
+      <a href="<%= user.url %>" class="btn btn-primary btn-user">
         <span>🚀</span>
         <%= user.username %>
       </a>
@@ -45,28 +35,30 @@
   </header>
 
   <main>
-    <h1>Hello <%= user.username %> 👋</h1>
+    <h1><%= title %></h1>
 
-    <div class="button-group edit-delete">
-      <a href="<%= user.url + '/update' %>" type="button" class="btn btn-primary btn-user">Update details</a>
-      <a href="<%= user.url + '/delete' %>" type="button" class="btn btn-secondary btn-danger">Delete account</a>
-    </div>
+    <% if (transaction_count > 0) { %>
+      <strong>By deleting this portfolio your <a href="<%= portfolio.url %>/transactions"><%= transaction_count %> <%= transaction_count === 1 ? 'transaction' : 'transactions' %></a> will also be deleted.</strong>
+    <% } %>
 
-    <div class="details">
-      <strong>Username:</strong><%= user.username %>
-      <strong>Email:</strong><%= user.email %>
-      <strong>Portfolio:</strong><% if (portfolio) { %><a href="<%= portfolio.url %>"><%= portfolio.name %></a><% } else { %><span>None found. <a href="/portfolio/create" class="plain-link">Create one now</a></span><% } %>
-      <strong>Transactions:</strong><%= transaction_count %>
-    </div>
+    <p>Are you sure you want to delete your portfolio?</p>
+
+    <form method="post" action="">
+      <input type="hidden" name="portfolioid" id="portfolioid" value="<%= portfolio._id %>">
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary btn-danger">Delete</button>
+        <a href="<%= portfolio.url %>" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
   </main>
 
   <footer>
     <div class="footer-top">
       <a href="/">
-        <img src="../images/logo.png" alt="tendie tracker" class="footer-img">
+        <img src="../../images/logo.png" alt="tendie tracker" class="footer-img">
       </a>
       <a href="https://github.com/gregolive" target="_blank" rel="noopener">
-        <img src="../images/github.png" alt="github" class="footer-img">
+        <img src="../../images/github.png" alt="github" class="footer-img">
       </a>
     </div>
 

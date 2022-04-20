@@ -24,7 +24,6 @@ td {
 }
 
 .transactions {
-  width: max(50%, 40rem);
   border: 1px solid var(--border);
 }
 
@@ -49,9 +48,5 @@ td {
 @media screen and (max-width: 768px) {
   th, td {
     font-size: 1rem;
-  }
-
-  .transactions {
-    width: auto;
   }
 }
