@@ -46,7 +46,7 @@ TransactionSchema
 TransactionSchema
 .virtual('url')
 .get(function () {
-  return '/transaction/' + this._id;
+  return '/transactions/' + this._id;
 });
 
 module.exports = mongoose.model('Transaction', TransactionSchema);

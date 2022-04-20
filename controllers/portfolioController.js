@@ -12,7 +12,7 @@ exports.portfolio_detail = (req, res, next) => {
       Portfolio.findById(req.params.id).exec(callback);
     },
     transactions: (callback) => {
-      Transaction.find({ 'user': req.user._id }).exec(callback);
+      Transaction.find({ 'user': req.user._id }).sort({ date: -1 }).exec(callback);
     },
   }, (err, results) => {
     if (err) { return next(err); }
