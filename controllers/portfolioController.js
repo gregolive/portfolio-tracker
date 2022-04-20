@@ -30,7 +30,7 @@ exports.portfolio_detail = (req, res, next) => {
 
 // Display Portfolio create form on GET.
 exports.portfolio_create_get = (req, res, next) => {
-  res.render('portfolio/portfolio_form', { title: 'Create Portfolio', user: req.user });
+  res.render('portfolio/portfolio_form', { title: 'New Portfolio', user: req.user });
 };
 
 // Handle Portfolio create on POST.
@@ -53,10 +53,9 @@ exports.portfolio_create_post = [
 
     if (Object.keys(errors).length > 0) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render('portfolio/portfolio_form', { title: 'Create Portfolio', user: req.user, portfolio: portfolio, errors: errors });
+      res.render('portfolio/portfolio_form', { title: 'New Portfolio', user: req.user, portfolio: portfolio, errors: errors });
       return;
-    }
-    else {
+    } else {
       // Data from form is valid.
       portfolio.save((err) => {
         if (err) { return next(err); }
@@ -79,10 +78,46 @@ exports.portfolio_delete_post = (req, res, next) => {
 
 // Display Portfolio update form on GET.
 exports.portfolio_update_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Portfolio update GET');
+  Portfolio.findById(req.params.id)
+  .exec((err, portfolio) => {
+    if (err) { return next(err); }
+    if (portfolio == null) { // No results.
+      let err = new Error('Portfolio not found');
+      err.status = 404;
+      return next(err);
+    }
+    // Success.
+    res.render('portfolio/portfolio_update', { title: 'Edit Portfolio', user: req.user, portfolio: portfolio });
+  });
 };
 
 // Handle Portfolio update on POST.
-exports.portfolio_update_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Portfolio update POST');
-};
+exports.portfolio_update_post = [
+  // Validate and sanitize fields.
+  body('name', 'Portfolio name required').trim().isLength({ min: 1 }).escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req).mapped();
+
+    // Create a Genre object with escaped/trimmed data and old id.
+    let portfolio = new Portfolio({
+      name: req.body.name,
+      _id: req.params.id,
+    });
+
+    if (Object.keys(errors).length > 0) {
+      // There are errors. Render form again with sanitized values/errors messages.
+      res.render('portfolio/portfolio_update', { title: 'Edit Portfolio', user: req.user, portfolio: portfolio, errors: errors });
+      return;
+    } else {
+      // Data from form is valid. Update the record.
+      Portfolio.findByIdAndUpdate(req.params.id, portfolio, {}, (err, updated_portfolio) => {
+        if (err) { return next(err); }
+        // Successful - redirect to portfolio detail page.
+        res.redirect(updated_portfolio.url);
+      });
+    }
+  }
+];

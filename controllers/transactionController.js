@@ -63,8 +63,7 @@ exports.transaction_create_post = [
       // There are errors. Render the form again with sanitized values/error messages.
       res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format, transaction: transaction, errors: errors });
       return;
-    }
-    else {
+    } else {
       // Data from form is valid.
       transaction.save((err) => {
         if (err) { return next(err); }
