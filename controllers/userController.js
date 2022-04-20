@@ -20,7 +20,9 @@ exports.user_detail = (req, res, next) => {
   }, (err, results) => {
     if (err) { return next(err); }
     //Successful, so render
-    res.render('user/user_detail', { title: results.user.username, user: results.user, portfolio: results.portfolio, transaction_count: results.transaction_count});
+    const message = req.session.message;
+    if (message) { req.session.message = ''; }
+    res.render('user/user_detail', { title: results.user.username, user: results.user, portfolio: results.portfolio, transaction_count: results.transaction_count, message: message });
   });
 };
 
@@ -133,6 +135,52 @@ exports.user_update_get = (req, res, next) => {
 };
 
 // Handle User update on POST.
-exports.user_update_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: User update POST');
-};
+exports.user_update_post = [
+  // Validate and sanitize fields.
+  body('username').trim().isLength({ min: 5 }).escape().withMessage('Username must be at least 5 characters long')
+    .isAlphanumeric().withMessage('Username has non-alphanumeric characters').custom((username, { req }) => {
+      return User.findOne({ username: username }).then(user => {
+        if (user && username !== req.user.username) { return Promise.reject('Username already in use'); }
+      });
+    }),
+  body('email').trim().escape().isEmail().withMessage('Email must be valid').custom((email, { req }) => {
+    return User.findOne({ email: email }).then(user => {
+      if (user && email !== req.user.email) { return Promise.reject('Email already in use'); }
+    });
+  }),
+  body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long'),
+  body('passwordConfirm').trim().isLength({ min: 6 }).escape().withMessage('Please confirm your password').custom((value, { req }) => {
+    if (value !== req.body.password) { throw new Error('Passwords do not match'); }
+    return true;
+  }),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req).mapped();
+    console.log(errors)
+
+    if (Object.keys(errors).length > 0) {
+      // There are errors. Render form again with sanitized values/errors messages.
+      res.render('user/user_update', { title: 'Update Account', user: req.body, errors: errors });
+      return;
+    } else {
+      // Data from form is valid. Update the record. Create a User object with escaped/trimmed data and old id.
+      bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+        if (err) { return next(err); }
+        let user = new User({
+          username: req.body.username,
+          email: req.body.email,
+          password: hashedPassword,
+          _id: req.user._id,
+        });
+        User.findByIdAndUpdate(req.user._id, user, {}, (error, updated_user) => {
+          if (error) { return next(error); }
+          // Successful - redirect to user detail page.
+          req.session.message = 'Account details updated! 👍';
+          res.redirect(updated_user.url);
+        });
+      });
+    }
+  }
+];

@@ -27,7 +27,7 @@ exports.home = (req, res, next) => {
 // Handle log in on GET.
 exports.login_get = (req, res, next) => {
   const message = req.session.message;
-  req.session.message = '';
+  if (message) { req.session.message = ''; }
   res.render('login', { title: 'Log in', message: message });
 };
 
@@ -36,7 +36,7 @@ exports.login_post = (
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
-    failureFlash: true
+    failureFlash: true,
   })
 );
 
