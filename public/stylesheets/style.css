@@ -244,6 +244,11 @@ section {
   gap: 1rem 2rem;
 }
 
+.details.small {
+  font-size: 1rem;
+  row-gap: 0.5rem;
+}
+
 form {
   display: grid;
   gap: 1rem;

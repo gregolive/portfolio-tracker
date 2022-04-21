@@ -77,13 +77,17 @@ exports.transaction_delete_get = (req, res, next) => {
       res.redirect('/');
     }
     // Successful, so render.
-    res.render('transaction/transaction_delete', { title: 'Delete Transaction', user: req.user, transaction: transaction });
+    res.render('transaction/transaction_delete', { title: 'Delete Transaction', user: req.user, transaction: transaction, formatDate: format });
   });
 };
 
 // Handle Transaction delete on POST.
 exports.transaction_delete_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Transaction delete POST');
+  Transaction.findByIdAndRemove(req.body.transactionid, (err) => {
+    if (err) { return next(err); }
+    // Success - go to bookinstance list
+    res.redirect('/portfolio/' + req.params.portfolio_id);
+  });
 };
 
 // Display Transaction update form on GET.

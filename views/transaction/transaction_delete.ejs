@@ -37,6 +37,13 @@
   <main>
     <h1><%= title %></h1>
 
+    <div class="details small">
+      <strong>Ticker:</strong> <%= transaction.ticker %>
+      <strong>Avg price:</strong> $<%= transaction.avg_price.toFixed(2) %>
+      <strong>Shares:</strong> <%= transaction.shares %>
+      <strong>Date:</strong> <%= formatDate(transaction.date, 'LLL dd, yyyy') %>
+    </div>
+
     <p>Are you sure you want to delete this transaction?</p>
 
     <form method="post" action="">
