@@ -20,7 +20,6 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
     "express-validator": "^6.14.0",
-    "finnhub": "^1.2.13",
     "http-errors": "~1.6.3",
     "mongoose": "^6.2.10",
     "morgan": "~1.9.1",

@@ -1,6 +1,6 @@
 const Portfolio = require('../models/portfolio');
 const Transaction = require('../models/transaction');
-const { portfolioValue, portfolioHoldings } = require('../config/query-config');
+const { portfolioHoldings, portfolioValue, portfolioCostBasis } = require('../config/query-config');
 const { body, validationResult } = require('express-validator');
 const async = require('async');
 const axios = require('axios');
@@ -14,20 +14,30 @@ exports.portfolio_detail = async (req, res, next) => {
     err.status = 404;
     return next(err);
   }
+
   const transactions = await Transaction.find({ 'user': req.user._id }).sort({ date: -1 }).catch((err) => { return next(err); });
-  
   const holdings = portfolioHoldings(transactions);
   for (let i = 0; i < holdings.length; i++) {
-    await axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${holdings[i].ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY1}`)
-      .then((res) => { holdings[i].price_data = res.data['Global Quote']; });
-    await axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${holdings[i].ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY2}`)
-      .then((res) => { holdings[i].company_data = res.data; });
+    await axios.get(`https://finnhub.io/api/v1/quote?symbol=${holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)
+      .then((res) => holdings[i].current_price = res.data['c']);
+    await axios.get(`ttps://finnhub.io/api/v1/stock/profile2?symbol=${holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)
+      .then((res) => holdings[i].company = res.data['name']);
   }
 
-  const portfolio_value = portfolioValue(transactions);
+  const cost_basis = portfolioCostBasis(transactions);
+  const portfolio_value = portfolioValue(holdings);
+
   const message = req.session.message;
   if (message) { req.session.message = ''; }
-  res.render('portfolio/portfolio_detail', { title: portfolio.name, user: req.user, portfolio: portfolio, transactions: transactions.slice(0, 10), portfolio_value: portfolio_value, holdings: holdings, formatDate: format, message: message } );
+  res.render('portfolio/portfolio_detail', {
+    title: portfolio.name,
+    user: req.user, portfolio: portfolio,
+    transactions: transactions.slice(0, 10),
+    cost_basis: cost_basis,
+    portfolio_value: portfolio_value,
+    holdings: holdings,
+    formatDate: format,
+    message: message } );
 };
 
 // Display Portfolio create form on GET.

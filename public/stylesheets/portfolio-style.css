@@ -4,7 +4,7 @@ table {
 }
 
 th, td {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   padding: 0.4rem;
 }
 
@@ -21,6 +21,10 @@ td {
 .ticker-col {
   background-color: var(--gray);
   font-weight: 600;
+}
+
+.company-col {
+  font-size: 1rem;
 }
 
 .transactions {
@@ -45,8 +49,29 @@ td {
   background: var(--bg2);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   th, td {
     font-size: 1rem;
+  }
+
+  .large-screen {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  th {
+    font-weight: 700;
+  }
+
+  th, td {
+    font-size: 1rem;
+    padding: 0.2rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .medium-screen {
+    display: none;
   }
 }

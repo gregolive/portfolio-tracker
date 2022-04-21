@@ -59,32 +59,30 @@
         <table>
           <tr>
             <th>Ticker</th>
-            <th>Company</th>
+            <th class="large-screen">Company</th>
             <th>Shares</th>
             <th>Average Price</th>
             <th>Market Price</th>
-            <th>Cost Basis</th>
-            <th>Market Value</th>
-            <th>Gain/Loss</th>
+            <th class="medium-screen">Cost Basis</th>
+            <th class="medium-screen">Market Value</th>
+            <th class="large-screen">Gain/Loss</th>
             <th>Growth</th>
-            <th>Portfolio Weight</th>
+            <th class="large-screen">Portfolio Weight</th>
           </tr>
           <% holdings.forEach((holding) => { %>
-            <% const company = (typeof holding.company_data["Name"] === 'undefined') ? '-' : holding.company_data["Name"] %>
-            <% const price = parseFloat(holding.price_data["05. price"]).toFixed(2) || '-' %> 
-            <% const marketValue = (price * holding.shares).toFixed(2) %> 
-            <% const gain = (marketValue - holding.total).toFixed(2) %> 
+            <% const marketValue = (holding.current_price * holding.shares).toFixed(2) %> 
+            <% const gain = (marketValue - holding.total).toFixed(2) %>
             <tr>
               <td class="ticker-col"><%= holding.ticker %></td>
-              <td><%= company %></td>
+              <td class="large-screen company-col"><%= holding.company %></td>
               <td><%= holding.shares %></td>
               <td>$<%= (holding.total / holding.shares).toFixed(2) %></td>
-              <td>$<%= price %></td>
-              <td>$<%= holding.total.toFixed(2) %></td>
-              <td>$<%= marketValue %></td>
-              <td class="text-<%= (gain > 0) ? "success" : "danger" %>">$<%= gain %></td>
-              <td class="text-<%= (gain > 0) ? "success" : "danger" %>"><%= (gain / marketValue).toFixed(2) %>%</td>
-              <td><%= (holding.total / portfolio_value * 100).toFixed(1) %>%</td>
+              <td>$<%= holding.current_price.toFixed(2) %></td>
+              <td class="medium-screen">$<%= holding.total.toFixed(2) %></td>
+              <td class="medium-screen">$<%= marketValue %></td>
+              <td class="large-screen text-<%= (gain > 0) ? "success" : "danger" %>">$<%= gain %></td>
+              <td class="text-<%= (gain > 0) ? "success" : "danger" %>"><%= (gain / holding.total * 100).toFixed(2) %>%</td>
+              <td class="large-screen"><%= (marketValue / portfolio_value * 100).toFixed(1) %>%</td>
             </tr>
           <% }) %>
         </table>

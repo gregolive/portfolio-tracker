@@ -23,14 +23,14 @@ exports.home = async (req, res, next) => {
   const recent_transactions = transactions.slice(0, 3);
   const top_holdings = holdings.slice(0, 3);
   for (let i = 0; i < top_holdings.length; i++) {
-    await axios.get(`ttps://finnhub.io/api/v1/stock/profile2?symbol=${top_holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)
+    await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${top_holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)
       .then((res) => top_holdings[i].company = res.data['name']);
   }
   
   const cost_basis = portfolioCostBasis(transactions);
   const portfolio_value = portfolioValue(holdings);
   const total_change = (portfolio_value - cost_basis);
-  const total_percent_change = ((portfolio_value - cost_basis) / cost_basis);
+  const total_percent_change = ((portfolio_value - cost_basis) / cost_basis * 100);
   const daily_change = dailyChange(holdings);
   const daily_percent_change = (daily_change / (portfolio_value - daily_change) * 100);
   
