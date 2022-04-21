@@ -79,7 +79,7 @@ exports.portfolio_delete_get = (req, res, next) => {
     },
   }, (err, results) => {
     if (err) { return next(err); }
-    if (req.user == null) { // No results, redirect to index.
+    if (results.portfolio == null) { // No results, redirect to index.
       res.redirect('/');
     }
     // Successful, so render.

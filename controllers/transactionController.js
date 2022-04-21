@@ -70,7 +70,15 @@ exports.transaction_create_post = [
 
 // Display Transaction delete form on GET.
 exports.transaction_delete_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Transaction delete GET');
+  Transaction.findById(req.params.id).populate('portfolio')
+  .exec((err, transaction) => {
+    if (err) { return next(err); }
+    if (transaction == null) { // No results, redirect to index.
+      res.redirect('/');
+    }
+    // Successful, so render.
+    res.render('transaction/transaction_delete', { title: 'Delete Transaction', user: req.user, transaction: transaction });
+  });
 };
 
 // Handle Transaction delete on POST.
