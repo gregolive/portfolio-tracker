@@ -61,6 +61,7 @@
             <th>Ticker</th>
             <th>Shares</th>
             <th>Average Price</th>
+            <th>Market Price</th>
             <th>Cost Basis</th>
             <th>Portfolio Weight</th>
           </tr>
@@ -69,6 +70,7 @@
               <td class="ticker-col"><%= holding.ticker %></td>
               <td><%= holding.shares %></td>
               <td>$<%= (holding.total / holding.shares).toFixed(2) %></td>
+              <td>$<%= parseFloat(holding.price_data["05. price"]).toFixed(2) %></td>
               <td>$<%= holding.total.toFixed(2) %></td>
               <td><%= (holding.total / portfolio_value * 100).toFixed(1) %>%</td>
             </tr>

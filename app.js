@@ -1,3 +1,4 @@
+require('dotenv').config(); // configure dotenv variables
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -13,9 +14,6 @@ const indexRouter = require('./routes/index');
 const userRouter = require('./routes/users');
 const portfolioRouter = require('./routes/portfolios');
 const transactionRouter = require('./routes/transactions');
-
-// configure dotenv variables
-require('dotenv').config();
 
 const app = express();
 

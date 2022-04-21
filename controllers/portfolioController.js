@@ -3,31 +3,29 @@ const Transaction = require('../models/transaction');
 const { portfolioValue, portfolioHoldings } = require('../config/query-config');
 const { body, validationResult } = require('express-validator');
 const async = require('async');
+const axios = require('axios');
 const { format } = require('date-fns');
 
 // Display detail page for a specific Portfolio.
-exports.portfolio_detail = (req, res, next) => {
-  async.parallel({
-    portfolio: (callback) => {
-      Portfolio.findById(req.params.id).exec(callback);
-    },
-    transactions: (callback) => {
-      Transaction.find({ 'user': req.user._id }).sort({ date: -1 }).exec(callback);
-    },
-  }, (err, results) => {
-    if (err) { return next(err); }
-    if (results.portfolio == null) { // No results.
-      let err = new Error('Portfolio not found');
-      err.status = 404;
-      return next(err);
-    }
-    // Successful, so render
-    const portfolio_value = portfolioValue(results.transactions);
-    const holdings = portfolioHoldings(results.transactions);
-    const message = req.session.message;
-    if (message) { req.session.message = ''; }
-    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions.slice(0, 10), portfolio_value: portfolio_value, holdings: holdings, formatDate: format, message: message } );
-  });
+exports.portfolio_detail = async (req, res, next) => {
+  const portfolio = await Portfolio.findById(req.params.id).catch((err) => { return next(err); });
+  if (portfolio == null) { // No results.
+    let err = new Error('Portfolio not found');
+    err.status = 404;
+    return next(err);
+  }
+  const transactions = await Transaction.find({ 'user': req.user._id }).sort({ date: -1 }).catch((err) => { return next(err); });
+  
+  const holdings = portfolioHoldings(transactions);
+  for (let i = 0; i < holdings.length; i++) {
+    await axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${holdings[i].ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY}`)
+      .then((res) => { holdings[i].price_data = res.data['Global Quote']; })
+  }
+
+  const portfolio_value = portfolioValue(transactions);
+  const message = req.session.message;
+  if (message) { req.session.message = ''; }
+  res.render('portfolio/portfolio_detail', { title: portfolio.name, user: req.user, portfolio: portfolio, transactions: transactions.slice(0, 10), portfolio_value: portfolio_value, holdings: holdings, formatDate: format, message: message } );
 };
 
 // Display Portfolio create form on GET.
