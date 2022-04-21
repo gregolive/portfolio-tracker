@@ -59,19 +59,31 @@
         <table>
           <tr>
             <th>Ticker</th>
+            <th>Company</th>
             <th>Shares</th>
             <th>Average Price</th>
             <th>Market Price</th>
             <th>Cost Basis</th>
+            <th>Market Value</th>
+            <th>Gain/Loss</th>
+            <th>Growth</th>
             <th>Portfolio Weight</th>
           </tr>
           <% holdings.forEach((holding) => { %>
+            <% const company = (typeof holding.company_data["Name"] === 'undefined') ? '-' : holding.company_data["Name"] %>
+            <% const price = parseFloat(holding.price_data["05. price"]).toFixed(2) || '-' %> 
+            <% const marketValue = (price * holding.shares).toFixed(2) %> 
+            <% const gain = (marketValue - holding.total).toFixed(2) %> 
             <tr>
               <td class="ticker-col"><%= holding.ticker %></td>
+              <td><%= company %></td>
               <td><%= holding.shares %></td>
               <td>$<%= (holding.total / holding.shares).toFixed(2) %></td>
-              <td>$<%= parseFloat(holding.price_data["05. price"]).toFixed(2) %></td>
+              <td>$<%= price %></td>
               <td>$<%= holding.total.toFixed(2) %></td>
+              <td>$<%= marketValue %></td>
+              <td class="text-<%= (gain > 0) ? "success" : "danger" %>">$<%= gain %></td>
+              <td class="text-<%= (gain > 0) ? "success" : "danger" %>"><%= (gain / marketValue).toFixed(2) %>%</td>
               <td><%= (holding.total / portfolio_value * 100).toFixed(1) %>%</td>
             </tr>
           <% }) %>

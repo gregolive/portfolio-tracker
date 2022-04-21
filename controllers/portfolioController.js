@@ -18,8 +18,10 @@ exports.portfolio_detail = async (req, res, next) => {
   
   const holdings = portfolioHoldings(transactions);
   for (let i = 0; i < holdings.length; i++) {
-    await axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${holdings[i].ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY}`)
-      .then((res) => { holdings[i].price_data = res.data['Global Quote']; })
+    await axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${holdings[i].ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY1}`)
+      .then((res) => { holdings[i].price_data = res.data['Global Quote']; });
+    await axios.get(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${holdings[i].ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY2}`)
+      .then((res) => { holdings[i].company_data = res.data; });
   }
 
   const portfolio_value = portfolioValue(transactions);

@@ -57,6 +57,14 @@ a {
   text-decoration: underline;
 }
 
+.text-success {
+  color: var(--success);
+}
+
+.text-danger {
+  color: var(--secondary1);
+}
+
 .btn {
   background: transparent;
   font-size: 1.1rem;
