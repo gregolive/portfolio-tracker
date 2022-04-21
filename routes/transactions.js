@@ -10,6 +10,9 @@ router.get('/create', authenticateUser, transaction_controller.transaction_creat
 // POST request for creating Transaction.
 router.post('/create', authenticateUser, transaction_controller.transaction_create_post);
 
+// GET request for list of all Transactions.
+router.get('/all', authenticateUser, transaction_controller.transaction_list);
+
 // GET request to delete Transaction.
 router.get('/:id/delete', authenticateUser, transaction_controller.transaction_delete_get);
 

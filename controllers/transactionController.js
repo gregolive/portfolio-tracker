@@ -2,6 +2,16 @@ const Transaction = require('../models/transaction');
 const { body, validationResult } = require('express-validator');
 const { format } = require('date-fns');
 
+// Display list of all Transactions.
+exports.transaction_list = (req, res, next) => {
+  Transaction.find({ 'user': req.user._id }).populate('portfolio')
+  .exec((err, transactions) => {
+    if (err) { return next(err); }
+    // Successful, so render
+    res.render('transaction/transaction_list', { title: 'All Transactions', user: req.user, transactions: transactions, formatDate: format });
+  });
+};
+
 // Display detail page for a specific Transaction.
 exports.transaction_detail = (req, res, next) => {
   Transaction.findById(req.params.id).populate('portfolio')
@@ -62,7 +72,7 @@ exports.transaction_create_post = [
       transaction.save((err) => {
         if (err) { return next(err); }
         // Transaction saved. Redirect to transaction detail page.
-        res.redirect('/portfolio/' + req.params.portfolio_id + transaction.url);
+        res.redirect(transaction.url);
       });
     }
   }

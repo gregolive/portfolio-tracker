@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | Tendies Tracker</title>
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/portfolio-style.css' />
+  <link rel="icon" href="/images/favicon.ico" />
+  <script src="/javascripts/script.js" defer></script>
+  <script src="/javascripts/popup.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">
+      <img src="../../../images/logo.png" alt="tendie tracker">
+      <span>Tendies Tracker</span>
+    </a>
+
+    <button type="button" class="btn btn-icon menu-open">
+      <span class="material-icons-outlined">menu</span>
+    </button>
+
+    <div class="header-links close">
+      <button type="button" class="btn btn-icon menu-close">
+        <span class="material-icons-outlined">close</span>
+      </button>
+      <a href="<%= user.url %>" class="btn btn-primary btn-user">
+        <span>🚀</span>
+        <%= user.username %>
+      </a>
+      <a href="/logout" class="btn btn-secondary">Log out</a>
+    </div>
+  </header>
+
+  <main>
+    <h1><%= title %> 💸</h1>
+
+    <% if (transactions.length > 0) { %>
+      <div class="transactions">
+        <% transactions.forEach((transaction) => { %>
+          <a href="<%= transaction.url %>" class="transaction-row">
+            <div>
+              <h3 class="ticker"><%= transaction.ticker %></h3>
+              <p><%= formatDate(transaction.date, 'LLL dd, yyyy') %></p>
+            </div>
+            <div>
+              <p class="shares"><%= transaction.shares %> shares</p>
+              <span class="avg-price">$<%= transaction.total.toFixed(2) %></span>
+            </div>
+            <span class="material-icons-outlined">arrow_forward_ios</span>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <div class="button-group">
+      <a href="<%= transactions[0].portfolio.url + '/update' %>" class="btn btn-primary btn-user">
+        <span class="material-icons-outlined">arrow_left</span>
+        Back to portfolio
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-top">
+      <a href="/">
+        <img src="../../../images/logo.png" alt="tendie tracker" class="footer-img">
+      </a>
+      <a href="https://github.com/gregolive" target="_blank" rel="noopener">
+        <img src="../../../images/github.png" alt="github" class="footer-img">
+      </a>
+    </div>
+
+    <div class="footer-main">
+      <a href="" class="footer-link">Dummy Link 1</a>
+      <a href="" class="footer-link">Dummy Link 2</a>
+      <a href="" class="footer-link">Dummy Link 3</a>
+      <a href="" class="footer-link">Dummy Link 4</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>Market data provided by <a href="https://www.alphavantage.co/" target="_blank" rel="noopener">Alpha Vantage</a>.</span>
+      <span>&copy; gregolive</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -26,7 +26,7 @@ exports.portfolio_detail = (req, res, next) => {
     const holdings = portfolioHoldings(results.transactions);
     const message = req.session.message;
     if (message) { req.session.message = ''; }
-    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions, portfolio_value: portfolio_value, holdings: holdings, formatDate: format, message: message } );
+    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions.slice(0, 10), portfolio_value: portfolio_value, holdings: holdings, formatDate: format, message: message } );
   });
 };
 
