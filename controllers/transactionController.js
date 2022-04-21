@@ -21,13 +21,15 @@ exports.transaction_detail = (req, res, next) => {
       return next(err);
     }
     // Successful, so render
-    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: results.transaction, portfolio: results.portfolio, formatDate: format } );
+    const message = req.session.message;
+    if (message) { req.session.message = ''; }
+    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: results.transaction, portfolio: results.portfolio, formatDate: format, message: message } );
   });
 };
 
 // Display Transaction create form on GET.
 exports.transaction_create_get = (req, res, next) => {
-  res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format });
+  res.render('transaction/transaction_form', { title: 'New Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format });
 };
 
 // Handle Transaction create on POST.
@@ -61,7 +63,7 @@ exports.transaction_create_post = [
 
     if (Object.keys(errors).length > 0) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render('transaction/transaction_form', { title: 'Add Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format, transaction: transaction, errors: errors });
+      res.render('transaction/transaction_form', { title: 'New Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format, transaction: transaction, errors: errors });
       return;
     } else {
       // Data from form is valid.
@@ -86,7 +88,17 @@ exports.transaction_delete_post = (req, res, next) => {
 
 // Display Transaction update form on GET.
 exports.transaction_update_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Transaction update GET');
+  Transaction.findById(req.params.id)
+  .exec((err, transaction) => {
+    if (err) { return next(err); }
+    if (transaction == null) { // No results.
+      let err = new Error('Transaction not found');
+      err.status = 404;
+      return next(err);
+    }
+    // Success.
+    res.render('transaction/transaction_update', { title: 'Edit Transaction', user: req.user, transaction: transaction, types: ['Buy', 'Sell'], formatDate: format});
+  });
 };
 
 // Handle Transaction update on POST.

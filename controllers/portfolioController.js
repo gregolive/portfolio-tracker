@@ -24,7 +24,9 @@ exports.portfolio_detail = (req, res, next) => {
     // Successful, so render
     const portfolio_value = portfolioValue(results.transactions);
     const holdings = portfolioHoldings(results.transactions);
-    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions, portfolio_value: portfolio_value, holdings: holdings, formatDate: format } );
+    const message = req.session.message;
+    if (message) { req.session.message = ''; }
+    res.render('portfolio/portfolio_detail', { title: results.portfolio.name, user: req.user, portfolio: results.portfolio, transactions: results.transactions, portfolio_value: portfolio_value, holdings: holdings, formatDate: format, message: message } );
   });
 };
 
@@ -142,6 +144,7 @@ exports.portfolio_update_post = [
       Portfolio.findByIdAndUpdate(req.params.id, portfolio, {}, (err, updated_portfolio) => {
         if (err) { return next(err); }
         // Successful - redirect to portfolio detail page.
+        req.session.message = 'Portfolio updated! 👍';
         res.redirect(updated_portfolio.url);
       });
     }

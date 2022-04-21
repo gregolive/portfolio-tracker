@@ -158,7 +158,6 @@ exports.user_update_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req).mapped();
-    console.log(errors)
 
     if (Object.keys(errors).length > 0) {
       // There are errors. Render form again with sanitized values/errors messages.
@@ -178,7 +177,7 @@ exports.user_update_post = [
           if (error) { return next(error); }
           // Successful - redirect to user detail page.
           req.session.message = 'Account details updated! 👍';
-          res.redirect(updated_user.url);
+          res.redirect(user.url);
         });
       });
     }
