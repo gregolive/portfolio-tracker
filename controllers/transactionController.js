@@ -54,7 +54,7 @@ exports.transaction_create_post = [
     let transaction = new Transaction(
       { 
         date: req.body.date,
-        ticker: req.body.ticker,
+        ticker: req.body.ticker.toUpperCase(),
         shares: req.body.shares,
         avg_price: req.body.avg_price,
         type: req.body.type,

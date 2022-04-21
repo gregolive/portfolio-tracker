@@ -48,16 +48,16 @@
         <section class="card portfolio">
           <div class="card-header">
             <h2 class="card-title"><%= portfolio.name %></h2>
-            <span class="portfolio-total">$<%= portfolio_value.toFixed(2) %></span>
+            <span class="portfolio-total">$<%= portfolio_value %></span>
           </div>
 
           <h3 class="card-subtitle">Day's gain</h3>
-          <span class="change">-676.31</span>
-          <span class="change percent-neg">-2.38%</span>
+          <span class="change"><%= daily_change %></span>
+          <span class="change percent-<%= (daily_percent_change > 0) ? "pos" : "neg" %>"><%= daily_percent_change %>%</span>
 
           <h3 class="card-subtitle">Total gain</h3>
-          <span class="change">6443.75</span>
-          <span class="change percent-pos">+18.55%</span>
+          <span class="change"><%= total_change %></span>
+          <span class="change percent-<%= (total_percent_change > 0) ? "pos" : "neg" %>"><%= total_percent_change %>%</span>
 
           <a href="<%= portfolio.url %>" class="btn btn-more">
             View Portfolio
@@ -74,9 +74,9 @@
             <% top_holdings.forEach((holding) => { %>
               <div class="card-row">
                 <h3 class="ticker"><%= holding.ticker %></h3>
-                <span class="price"><%= holding.total.toFixed(2) %></span>
-                <p>ARK Genomic Revolution ETF</p>
-                <span class="change percent-pos">+1.55%</span>
+                <span class="price"><%= parseFloat(holding.current_price).toFixed(2) %></span>
+                <p><%= holding.company %></p>
+                <span class="change percent-<%= (parseFloat(holding.day_percent_change) > 0) ? "pos" : "neg" %>"><%= parseFloat(holding.day_percent_change).toFixed(2) %>%</span>
               </div>
             <% }) %> 
             <% } else { %>

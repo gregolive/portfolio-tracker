@@ -12,4 +12,8 @@ exports.portfolioHoldings = (transactions) => {
   return holdings.sort((a, b) => b.total - a.total);
 };
 
-exports.portfolioValue = (transactions) => transactions.reduce((sum, t) => sum + t.total, 0);
+exports.portfolioCostBasis = (transactions) => transactions.reduce((sum, t) => sum + t.total, 0);
+
+exports.portfolioValue = (holdings) => holdings.reduce((sum, h) => sum + h.shares * h.current_price, 0);
+
+exports.dailyChange = (holdings) => holdings.reduce((sum, h) => sum + h.shares * h.day_change, 0);
