@@ -47,7 +47,7 @@
     <h1><%= title %></h1>
 
     <div class="details">
-      <strong>Portfolio:</strong> <a href="<%= portfolio.url %> "><%= portfolio.name %></a>
+      <strong>Portfolio:</strong> <a href="<%= transaction.portfolio.url %> "><%= transaction.portfolio.name %></a>
       <strong>Ticker:</strong> <%= transaction.ticker %>
       <strong>Avg price:</strong> $<%= transaction.avg_price.toFixed(2) %>
       <strong>Shares:</strong> <%= transaction.shares %>
@@ -57,8 +57,8 @@
     </div>
 
     <div class="button-group edit-delete">
-      <a href="<%= portfolio.url + transaction.url + '/update' %>" class="btn btn-primary btn-user">Edit transaction</a>
-      <a href="<%= portfolio.url + transaction.url + '/delete' %>" class="btn btn-secondary btn-danger">Delete transaction</a>
+      <a href="<%= transaction.url + '/update' %>" class="btn btn-primary btn-user">Edit transaction</a>
+      <a href="<%= transaction.url + '/delete' %>" class="btn btn-secondary btn-danger">Delete transaction</a>
     </div>
   </main>
 

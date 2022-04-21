@@ -89,7 +89,7 @@
       <% if (transactions.length > 0) { %>
         <div class="transactions">
           <% transactions.forEach((transaction) => { %>
-            <a href="<%= portfolio.url + transaction.url %>" class="transaction-row">
+            <a href="<%= transaction.url %>" class="transaction-row">
               <div>
                 <h3 class="ticker"><%= transaction.ticker %></h3>
                 <p><%= formatDate(transaction.date, 'LLL dd, yyyy') %></p>
@@ -98,9 +98,7 @@
                 <p class="shares"><%= transaction.shares %> shares</p>
                 <span class="avg-price">$<%= transaction.total.toFixed(2) %></span>
               </div>
-              <span class="material-icons-outlined">
-                arrow_forward_ios
-                </span>
+              <span class="material-icons-outlined">arrow_forward_ios</span>
             </a>
           <% }) %>
         </div>

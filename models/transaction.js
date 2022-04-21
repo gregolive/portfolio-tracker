@@ -27,6 +27,11 @@ const TransactionSchema = new Schema(
       enum: ['Buy', 'Sell'],
       default: 'Buy',
     },
+    portfolio: {
+      type: Schema.Types.ObjectId,
+      ref: 'Portfolio',
+      required: true,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -46,7 +51,7 @@ TransactionSchema
 TransactionSchema
 .virtual('url')
 .get(function () {
-  return '/transactions/' + this._id;
+  return '/portfolio/' + this.portfolio._id + '/transactions/' + this._id;
 });
 
 module.exports = mongoose.model('Transaction', TransactionSchema);

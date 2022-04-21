@@ -1,21 +1,13 @@
 const Transaction = require('../models/transaction');
-const Portfolio = require('../models/portfolio');
 const { body, validationResult } = require('express-validator');
-const async = require('async');
 const { format } = require('date-fns');
 
 // Display detail page for a specific Transaction.
 exports.transaction_detail = (req, res, next) => {
-  async.parallel({
-    transaction: (callback) => {
-      Transaction.findById(req.params.id).exec(callback);
-    },
-    portfolio: (callback) => {
-      Portfolio.findOne({ 'owner': req.user._id }).exec(callback);
-    },
-  }, (err, results) => {
+  Transaction.findById(req.params.id).populate('portfolio')
+  .exec((err, transaction) => {
     if (err) { return next(err); }
-    if (results.transaction == null) { // No results.
+    if (transaction == null) { // No results.
       let err = new Error('Transaction not found');
       err.status = 404;
       return next(err);
@@ -23,7 +15,7 @@ exports.transaction_detail = (req, res, next) => {
     // Successful, so render
     const message = req.session.message;
     if (message) { req.session.message = ''; }
-    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: results.transaction, portfolio: results.portfolio, formatDate: format, message: message } );
+    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: transaction, formatDate: format, message: message } );
   });
 };
 
@@ -88,7 +80,7 @@ exports.transaction_delete_post = (req, res, next) => {
 
 // Display Transaction update form on GET.
 exports.transaction_update_get = (req, res, next) => {
-  Transaction.findById(req.params.id)
+  Transaction.findById(req.params.id).populate('portfolio')
   .exec((err, transaction) => {
     if (err) { return next(err); }
     if (transaction == null) { // No results.
@@ -102,6 +94,45 @@ exports.transaction_update_get = (req, res, next) => {
 };
 
 // Handle Transaction update on POST.
-exports.transaction_update_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Transaction update POST');
-};
+exports.transaction_update_post = [
+  // Validate and sanitize fields.
+  body('date', 'Invalid date').isISO8601().toDate(),
+  body('ticker', 'Ticker must be between 3 and 5 characters').trim().isLength({ min: 3, max: 5 }).escape(),
+  body('shares', 'Number of shares required').trim().isLength({ min: 1 }).escape()
+    .isNumeric().withMessage('Entered value must be a number'),
+  body('avg_price', 'Average price required').trim().isLength({ min: 1 }).escape()
+    .isNumeric().withMessage('Entered value must be a number'),
+  body('type').escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req).mapped();
+
+    // Create a Genre object with escaped/trimmed data and old id.
+    let portfolio = new Transaction({
+      date: req.body.date,
+      ticker: req.body.ticker,
+      shares: req.body.shares,
+      avg_price: req.body.avg_price,
+      type: req.body.type,
+      portfolio: req.params.portfolio_id,
+      user: req.user._id,
+      _id: req.params.id,
+    });
+
+    if (Object.keys(errors).length > 0) {
+      // There are errors. Render form again with sanitized values/errors messages.
+      res.render('portfolio/portfolio_update', { title: 'Edit Transaction', user: req.user, portfolio: portfolio, errors: errors });
+      return;
+    } else {
+      // Data from form is valid. Update the record.
+      Transaction.findByIdAndUpdate(req.params.id, portfolio, {}, (err, updated_portfolio) => {
+        if (err) { return next(err); }
+        // Successful - redirect to portfolio detail page.
+        req.session.message = 'Transaction updated! 👍';
+        res.redirect(updated_portfolio.url);
+      });
+    }
+  }
+];
