@@ -75,6 +75,7 @@ a {
 .btn-primary {
   background: var(--primary1);
   color: var(--bg1);
+  font-weight: 600;
 }
 
 .btn-secondary {
