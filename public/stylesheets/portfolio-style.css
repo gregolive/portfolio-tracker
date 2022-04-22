@@ -22,7 +22,7 @@ td:not(.hidden-cell) {
 }
 
 tfoot > tr > td:not(.hidden-cell) {
-  font-weight: 600;
+  font-weight: 700;
   border: 1px solid var(--border);
 }
 

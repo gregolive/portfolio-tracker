@@ -66,8 +66,8 @@
     <div class="footer-main">
       <a href="/" class="footer-link">Home</a>
       <a href="<%= user.url %>" class="footer-link">Your Account</a>
-      <a href="<%= portfolio.url %>" class="footer-link">Your Portfolio</a>
-      <a href="<%= portfolio.url %>/transactions/create" class="footer-link">Add Transaction</a>
+      <a href="<%= (portfolio) ? portfolio.url : "/portfolio/create" %>" class="footer-link">Your Portfolio</a>
+      <a href="<%= (portfolio) ? (portfolio.url + "/transactions/create") : "/portfolio_create" %>" class="footer-link">Add Transaction</a>
     </div>
 
     <div class="footer-bottom">

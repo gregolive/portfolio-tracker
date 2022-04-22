@@ -43,7 +43,7 @@
         <a href="/portfolio/create" class="btn btn-primary">+ Create portfolio</a>
       </div>
     <% } else { %>
-      <h1><%= daily_change > 0 ? "Feeling bullish? 📈" : "Bear gang day 📉" %></h1>
+      <h1><%= daily_change < 0 ? "Bear gang day 📉" : "Feeling bullish? 📈" %></h1>
 
       <div class="button-group edit-delete">
         <a href="<%= portfolio.url %>" class="btn btn-primary">View Portfolio</a>
@@ -59,11 +59,11 @@
 
           <h3 class="card-subtitle">Day's gain</h3>
           <span class="change"><%= daily_change %></span>
-          <span class="change percent-<%= (daily_percent_change > 0) ? "pos" : "neg" %>"><%= daily_percent_change %>%</span>
+          <span class="change percent-<%= (daily_percent_change < 0) ? "neg" : "pos" %>"><%= (top_holdings.length > 0) ? daily_percent_change : "0.00" %>%</span>
 
           <h3 class="card-subtitle">Total gain</h3>
           <span class="change"><%= total_change %></span>
-          <span class="change percent-<%= (total_percent_change > 0) ? "pos" : "neg" %>"><%= total_percent_change %>%</span>
+          <span class="change percent-<%= (total_percent_change < 0) ? "neg" : "pos" %>"><%= (top_holdings.length > 0) ? total_percent_change : "0.00" %>%</span>
 
           <a href="<%= portfolio.url %>" class="btn btn-more">
             See more
@@ -128,8 +128,8 @@
     <div class="footer-main">
       <a href="/" class="footer-link">Home</a>
       <a href="<%= user.url %>" class="footer-link">Your Account</a>
-      <a href="<%= portfolio.url %>" class="footer-link">Your Portfolio</a>
-      <a href="<%= portfolio.url %>/transactions/create" class="footer-link">Add Transaction</a>
+      <a href="<%= (portfolio) ? portfolio.url : "/portfolio/create" %>" class="footer-link">Your Portfolio</a>
+      <a href="<%= (portfolio) ? (portfolio.url + "/transactions/create") : "/portfolio_create" %>" class="footer-link">Add Transaction</a>
     </div>
 
     <div class="footer-bottom">
