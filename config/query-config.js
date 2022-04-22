@@ -11,7 +11,7 @@ exports.portfolioHoldings = (transactions) => {
   }, []);
 };
 
-exports.portfolioCostBasis = (transactions) => transactions.reduce((sum, t) => (t.type === 'Buy') ? sum + t.total : sum - t.total, 0);
+exports.portfolioCostBasis = (transactions) => transactions.reduce((sum, t) => sum + t.total, 0);
 
 exports.portfolioValue = (holdings) => holdings.reduce((sum, h) => sum + h.shares * h.current_price, 0);
 
