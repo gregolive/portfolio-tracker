@@ -91,11 +91,14 @@
 
           <% if (recent_transactions.length > 0) { %>
             <% recent_transactions.forEach((transaction) => { %> 
-              <div class="card-row">
+              <div class="card-row link">
                 <h3 class="ticker"><%= transaction.ticker %></h3>
                 <span class="shares"><%= transaction.shares %> shares</span>
                 <p><%= formatDate(transaction.date, 'LLL dd, yyyy') %></p>
                 <span class="avg-price">$<%= transaction.total.toFixed(2) %></span>
+                <a href="<%= transaction.url %>" class="btn btn-icon">
+                  <span class="material-icons-outlined">arrow_forward_ios</span>
+                </a>
               </div>
             <% }) %> 
           <% } else { %>
