@@ -23,9 +23,12 @@ exports.portfolio_detail = async (req, res, next) => {
     await axios.get(`ttps://finnhub.io/api/v1/stock/profile2?symbol=${holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)
       .then((res) => holdings[i].company = res.data['name']);
   }
+  holdings.sort((a, b) => a.ticker.localeCompare(b.ticker));
 
   const cost_basis = portfolioCostBasis(transactions);
   const portfolio_value = portfolioValue(holdings);
+  const total_change = (portfolio_value - cost_basis);
+  const total_percent_change = ((portfolio_value - cost_basis) / cost_basis * 100);
 
   const message = req.session.message;
   if (message) { req.session.message = ''; }
@@ -33,8 +36,10 @@ exports.portfolio_detail = async (req, res, next) => {
     title: portfolio.name,
     user: req.user, portfolio: portfolio,
     transactions: transactions.slice(0, 10),
-    cost_basis: cost_basis,
-    portfolio_value: portfolio_value,
+    cost_basis: cost_basis.toFixed(2),
+    portfolio_value: portfolio_value.toFixed(2),
+    total_change: total_change.toFixed(2),
+    total_percent_change: total_percent_change.toFixed(2),
     holdings: holdings,
     formatDate: format,
     message: message } );

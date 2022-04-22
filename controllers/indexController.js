@@ -19,6 +19,7 @@ exports.home = async (req, res, next) => {
         holdings[i].day_percent_change = res.data['dp'];
       });
   }
+  holdings.sort((a, b) => (b.shares * b.current_price) - (a.shares * a.current_price))
 
   const recent_transactions = transactions.slice(0, 3);
   const top_holdings = holdings.slice(0, 3);

@@ -1,5 +1,5 @@
 exports.portfolioHoldings = (transactions) => {
-  const holdings = transactions.reduce((holdings, transaction) => {
+  return transactions.reduce((holdings, transaction) => {
     const target = holdings.find((el) => el.ticker === transaction.ticker);
     if (target) {
       target.shares += transaction.share_change;
@@ -9,7 +9,6 @@ exports.portfolioHoldings = (transactions) => {
     }
     return holdings;
   }, []);
-  return holdings.sort((a, b) => b.total - a.total);
 };
 
 exports.portfolioCostBasis = (transactions) => transactions.reduce((sum, t) => (t.type === 'Buy') ? sum + t.total : sum - t.total, 0);

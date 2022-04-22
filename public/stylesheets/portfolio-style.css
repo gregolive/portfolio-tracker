@@ -1,6 +1,9 @@
 table {
-  border: 1px solid var(--border);
   border-collapse: collapse;
+}
+
+thead, tbody {
+  border: 1px solid var(--border);
 }
 
 th, td {
@@ -14,8 +17,13 @@ th {
   border-bottom: 1px solid var(--border);
 }
 
-td {
+td:not(.hidden-cell) {
   border-right: 1px solid var(--border);
+}
+
+tfoot > tr > td:not(.hidden-cell) {
+  font-weight: 600;
+  border: 1px solid var(--border);
 }
 
 .ticker-col {
@@ -25,6 +33,10 @@ td {
 
 .company-col {
   font-size: 1rem;
+}
+
+.hidden-cell {
+  visibility: hidden;
 }
 
 .transactions {

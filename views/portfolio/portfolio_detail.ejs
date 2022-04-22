@@ -57,34 +57,54 @@
 
       <% if (holdings.length > 0) { %>
         <table>
-          <tr>
-            <th>Ticker</th>
-            <th class="large-screen">Company</th>
-            <th>Shares</th>
-            <th>Average Price</th>
-            <th>Market Price</th>
-            <th class="medium-screen">Cost Basis</th>
-            <th class="medium-screen">Market Value</th>
-            <th class="large-screen">Gain/Loss</th>
-            <th>Growth</th>
-            <th class="large-screen">Portfolio Weight</th>
-          </tr>
-          <% holdings.forEach((holding) => { %>
-            <% const marketValue = (holding.current_price * holding.shares).toFixed(2) %> 
-            <% const gain = (marketValue - holding.total).toFixed(2) %>
+          <thead>
             <tr>
-              <td class="ticker-col"><%= holding.ticker %></td>
-              <td class="large-screen company-col"><%= holding.company %></td>
-              <td><%= holding.shares %></td>
-              <td>$<%= (holding.total / holding.shares).toFixed(2) %></td>
-              <td>$<%= holding.current_price.toFixed(2) %></td>
-              <td class="medium-screen">$<%= holding.total.toFixed(2) %></td>
-              <td class="medium-screen">$<%= marketValue %></td>
-              <td class="large-screen text-<%= (gain > 0) ? "success" : "danger" %>">$<%= gain %></td>
-              <td class="text-<%= (gain > 0) ? "success" : "danger" %>"><%= (gain / holding.total * 100).toFixed(2) %>%</td>
-              <td class="large-screen"><%= (marketValue / portfolio_value * 100).toFixed(1) %>%</td>
+              <th>Ticker</th>
+              <th class="large-screen">Company</th>
+              <th>Shares</th>
+              <th>Average Price</th>
+              <th>Market Price</th>
+              <th class="medium-screen">Cost Basis</th>
+              <th class="medium-screen">Market Value</th>
+              <th class="large-screen">Gain/Loss</th>
+              <th>Growth</th>
+              <th class="large-screen">Portfolio Weight</th>
             </tr>
-          <% }) %>
+          </thead>
+
+          <tbody>
+            <% holdings.forEach((holding) => { %>
+              <% const marketValue = (holding.current_price * holding.shares).toFixed(2) %> 
+              <% const gain = (marketValue - holding.total).toFixed(2) %>
+              <tr>
+                <td class="ticker-col"><%= holding.ticker %></td>
+                <td class="large-screen company-col"><%= holding.company %></td>
+                <td><%= holding.shares %></td>
+                <td>$<%= (holding.total / holding.shares).toFixed(2) %></td>
+                <td>$<%= holding.current_price.toFixed(2) %></td>
+                <td class="medium-screen">$<%= holding.total.toFixed(2) %></td>
+                <td class="medium-screen">$<%= marketValue %></td>
+                <td class="large-screen text-<%= (gain > 0) ? "success" : "danger" %>">$<%= gain %></td>
+                <td class="text-<%= (gain > 0) ? "success" : "danger" %>"><%= (gain / holding.total * 100).toFixed(2) %>%</td>
+                <td class="large-screen"><%= (marketValue / portfolio_value * 100).toFixed(1) %>%</td>
+              </tr>
+            <% }) %>
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <td class="hidden-cell"></td>
+              <td class="hidden-cell large-screen"></td>
+              <td class="hidden-cell"></td>
+              <td class="hidden-cell"></td>
+              <td class="hidden-cell"></td>
+              <td  class="medium-screen">$<%= cost_basis %></td>
+              <td  class="medium-screen">$<%= portfolio_value %></td>
+              <td  class="large-screen text-<%= (total_change > 0) ? "success" : "danger" %>">$<%= total_change %></td>
+              <td class="text-<%= (total_percent_change > 0) ? "success" : "danger" %>"><%= total_percent_change %>%</td>
+              <td class="hidden-cell large-screen"></td>
+            </tr>
+          </tfoot>
         </table>
       <% } else { %>
         <p>Your portfolio has no holdings 😭</p>
