@@ -45,6 +45,11 @@
     <% } else { %>
       <h1><%= daily_change > 0 ? "Feeling bullish? 📈" : "Bear gang day 📉" %></h1>
 
+      <div class="button-group edit-delete">
+        <a href="<%= portfolio.url %>" class="btn btn-primary">View Portfolio</a>
+        <a href="<%= portfolio.url %>/transactions/create" class="btn btn-secondary">+ New transaction</a>
+      </div>
+
       <div class="dashboard">
         <section class="card portfolio">
           <div class="card-header">
@@ -61,7 +66,7 @@
           <span class="change percent-<%= (total_percent_change > 0) ? "pos" : "neg" %>"><%= total_percent_change %>%</span>
 
           <a href="<%= portfolio.url %>" class="btn btn-more">
-            View Portfolio
+            See more
             <span class="material-icons-outlined">navigate_next</span>
           </a>
         </section>

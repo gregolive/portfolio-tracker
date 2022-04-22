@@ -10,7 +10,7 @@ exports.home = async (req, res, next) => {
   const portfolio = await Portfolio.findOne({ 'owner': req.user._id }).catch((err) => { return next(err); });
   const transactions = await Transaction.find({ 'user': req.user._id }).sort({ date: -1 }).catch((err) => { return next(err); });
   
-  const holdings = portfolioHoldings(transactions).slice(0, 3);
+  const holdings = portfolioHoldings(transactions);
   for (let i = 0; i < holdings.length; i++) {
     await axios.get(`https://finnhub.io/api/v1/quote?symbol=${holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)
       .then((res) => {
@@ -21,7 +21,7 @@ exports.home = async (req, res, next) => {
   }
   holdings.sort((a, b) => (b.shares * b.current_price) - (a.shares * a.current_price))
 
-  const recent_transactions = transactions.slice(0, 3);
+  const recent_transactions = transactions.slice(0, 5);
   const top_holdings = holdings.slice(0, 3);
   for (let i = 0; i < top_holdings.length; i++) {
     await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${top_holdings[i].ticker}&token=${process.env.FINNHUB_API_KEY}`)

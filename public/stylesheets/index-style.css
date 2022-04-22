@@ -99,7 +99,7 @@
 }
 
 .transactions {
-  grid-area: 2 / 2 / 3 / 3;
+  grid-area: 1 / 2 / 3 / 3;
   align-self: start;
 }
 
