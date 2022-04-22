@@ -1,3 +1,4 @@
+const Portfolio = require('../models/portfolio');
 const Transaction = require('../models/transaction');
 const { body, validationResult } = require('express-validator');
 const { format } = require('date-fns');
@@ -8,7 +9,7 @@ exports.transaction_list = (req, res, next) => {
   .exec((err, transactions) => {
     if (err) { return next(err); }
     // Successful, so render
-    res.render('transaction/transaction_list', { title: 'All Transactions', user: req.user, transactions: transactions, formatDate: format });
+    res.render('transaction/transaction_list', { title: 'All Transactions', user: req.user, transactions: transactions, portfolio: transactions[0].portfolio, formatDate: format });
   });
 };
 
@@ -25,13 +26,14 @@ exports.transaction_detail = (req, res, next) => {
     // Successful, so render
     const message = req.session.message;
     if (message) { req.session.message = ''; }
-    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: transaction, formatDate: format, message: message } );
+    res.render('transaction/transaction_detail', { title: 'Transaction Details', user: req.user, transaction: transaction, portfolio: transaction.portfolio, formatDate: format, message: message } );
   });
 };
 
 // Display Transaction create form on GET.
-exports.transaction_create_get = (req, res, next) => {
-  res.render('transaction/transaction_form', { title: 'New Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format });
+exports.transaction_create_get = async (req, res, next) => {
+  const portfolio = await Portfolio.findOne({ 'owner': req.user._id }).catch((err) => { return next(err); });
+  res.render('transaction/transaction_form', { title: 'New Transaction', user: req.user, portfolio: portfolio, types: ['Buy', 'Sell'], formatDate: format });
 };
 
 // Handle Transaction create on POST.
@@ -46,7 +48,7 @@ exports.transaction_create_post = [
   body('type').escape(),
 
   // Process request after validation and sanitization.
-  (req, res, next) => {
+  async (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req).mapped();
 
@@ -63,9 +65,11 @@ exports.transaction_create_post = [
       }
     );
 
+    const portfolio = await Portfolio.findOne({ 'owner': req.user._id }).catch((err) => { return next(err); });
+
     if (Object.keys(errors).length > 0) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render('transaction/transaction_form', { title: 'New Transaction', user: req.user, types: ['Buy', 'Sell'], formatDate: format, transaction: transaction, errors: errors });
+      res.render('transaction/transaction_form', { title: 'New Transaction', user: req.user, transaction: transaction, portfolio: portfolio, types: ['Buy', 'Sell'], formatDate: format, errors: errors });
       return;
     } else {
       // Data from form is valid.
@@ -87,7 +91,7 @@ exports.transaction_delete_get = (req, res, next) => {
       res.redirect('/');
     }
     // Successful, so render.
-    res.render('transaction/transaction_delete', { title: 'Delete Transaction', user: req.user, transaction: transaction, formatDate: format });
+    res.render('transaction/transaction_delete', { title: 'Delete Transaction', user: req.user, transaction: transaction, portfolio: transaction.portfolio, formatDate: format });
   });
 };
 
@@ -111,7 +115,7 @@ exports.transaction_update_get = (req, res, next) => {
       return next(err);
     }
     // Success.
-    res.render('transaction/transaction_update', { title: 'Edit Transaction', user: req.user, transaction: transaction, types: ['Buy', 'Sell'], formatDate: format});
+    res.render('transaction/transaction_update', { title: 'Edit Transaction', user: req.user, transaction: transaction, portfolio: transaction.portfolio, types: ['Buy', 'Sell'], formatDate: format });
   });
 };
 
@@ -132,7 +136,7 @@ exports.transaction_update_post = [
     const errors = validationResult(req).mapped();
 
     // Create a Genre object with escaped/trimmed data and old id.
-    let portfolio = new Transaction({
+    let transaction = new Transaction({
       date: req.body.date,
       ticker: req.body.ticker,
       shares: req.body.shares,
@@ -145,15 +149,15 @@ exports.transaction_update_post = [
 
     if (Object.keys(errors).length > 0) {
       // There are errors. Render form again with sanitized values/errors messages.
-      res.render('portfolio/portfolio_update', { title: 'Edit Transaction', user: req.user, portfolio: portfolio, errors: errors });
+      res.render('transaction/transaction_update', { title: 'Edit Transaction', user: req.user, transaction: transaction, portfolio: transaction.portfolio, types: ['Buy', 'Sell'], formatDate: format, errors: errors });
       return;
     } else {
       // Data from form is valid. Update the record.
-      Transaction.findByIdAndUpdate(req.params.id, portfolio, {}, (err, updated_portfolio) => {
+      Transaction.findByIdAndUpdate(req.params.id, transaction, {}, (err, updated_transaction) => {
         if (err) { return next(err); }
         // Successful - redirect to portfolio detail page.
         req.session.message = 'Transaction updated! 👍';
-        res.redirect(updated_portfolio.url);
+        res.redirect(updated_transaction.url);
       });
     }
   }

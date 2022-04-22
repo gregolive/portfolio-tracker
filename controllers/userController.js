@@ -122,15 +122,22 @@ exports.user_delete_post = (req, res, next) => {
 // Display User update form on GET.
 exports.user_update_get = (req, res, next) => {
   // Get user for form.
-  User.findOne({ username: req.params.username }).exec((err, user) => {
+  async.parallel({
+    user: (callback) => {
+      User.findOne({ username: req.params.username }).exec(callback)
+    },
+    portfolio: (callback) => {
+      Portfolio.findOne({ 'owner': req.user._id }).exec(callback);
+    },
+  }, (err, results) => {
     if (err) { return next(err); }
-    if (user == null) { // No results.
+    if (results.user == null) { // No results.
       let err = new Error('User not found');
       err.status = 404;
       return next(err);
     }
     // Success.
-    res.render('user/user_update', { title: 'Update Account', user: user });
+    res.render('user/user_update', { title: 'Update Account', user: results.user, portfolio: results.portfolio });
   });
 };
 
