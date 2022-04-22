@@ -2,17 +2,17 @@ exports.portfolioHoldings = (transactions) => {
   const holdings = transactions.reduce((holdings, transaction) => {
     const target = holdings.find((el) => el.ticker === transaction.ticker);
     if (target) {
-      target.shares += transaction.shares;
+      target.shares += transaction.share_change;
       target.total += transaction.total;
     } else {
-      holdings.push({ ticker: transaction.ticker, shares: transaction.shares, total: transaction.total });
+      holdings.push({ ticker: transaction.ticker, shares: transaction.share_change, total: transaction.total });
     }
     return holdings;
   }, []);
   return holdings.sort((a, b) => b.total - a.total);
 };
 
-exports.portfolioCostBasis = (transactions) => transactions.reduce((sum, t) => sum + t.total, 0);
+exports.portfolioCostBasis = (transactions) => transactions.reduce((sum, t) => (t.type === 'Buy') ? sum + t.total : sum - t.total, 0);
 
 exports.portfolioValue = (holdings) => holdings.reduce((sum, h) => sum + h.shares * h.current_price, 0);
 

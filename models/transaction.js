@@ -40,11 +40,18 @@ const TransactionSchema = new Schema(
   }
 );
 
+// Virtual for transaction's share change
+TransactionSchema
+.virtual('share_change')
+.get(function () {
+  return (this.type === 'Buy') ? this.shares : -this.shares;
+});
+
 // Virtual for transaction's total
 TransactionSchema
 .virtual('total')
 .get(function () {
-  return (this.type === 'Buy') ? this.avg_price * this.shares : -(this.avg_price * this.shares);
+  return this.avg_price * this.share_change;
 });
 
 // Virtual for transaction's URL
