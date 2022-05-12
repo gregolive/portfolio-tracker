@@ -10,7 +10,7 @@ const TransactionSchema = new Schema(
     ticker: {
       type: String,
       required: true,
-      minLength: 3,
+      minLength: 1,
       maxLength: 5,
     },
     shares: {
