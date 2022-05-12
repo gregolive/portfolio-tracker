@@ -40,7 +40,7 @@ exports.transaction_create_get = async (req, res, next) => {
 exports.transaction_create_post = [
   // Validate and sanitize the name field.
   body('date', 'Invalid date').isISO8601().toDate(),
-  body('ticker', 'Ticker must be between 3 and 5 characters').trim().isLength({ min: 3, max: 5 }).escape(),
+  body('ticker', 'Ticker must be between 1 and 5 characters').trim().isLength({ min: 1, max: 5 }).escape(),
   body('shares', 'Number of shares required').trim().isLength({ min: 1 }).escape()
     .isNumeric().withMessage('Entered value must be a number'),
   body('avg_price', 'Average price required').trim().isLength({ min: 1 }).escape()
