@@ -1,4 +1,4 @@
-# Tendie Tracker
+# Tendies Tracker
 
 Keep track of your investment gains or ***tendies*** with this stock portfolio tracker app inspired by [WallStreetBets](https://www.reddit.com/r/wallstreetbets/).
 
